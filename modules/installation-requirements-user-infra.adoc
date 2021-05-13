@@ -45,6 +45,9 @@ endif::[]
 ifeval::["{context}" == "installing-restricted-networks-vsphere"]
 :vsphere:
 endif::[]
+ifeval::["{context}" == "installing-platform-agnostic"]
+:agnostic:
+endif::[]
 
 [id="installation-requirements-user-infra_{context}"]
 = Machine requirements for a cluster with user-provisioned infrastructure
@@ -86,6 +89,13 @@ endif::ibm-z[]
 
 The bootstrap and control plane machines must use {op-system-first} as the operating system.
 
+ifdef::bare-metal,agnostic[]
+[IMPORTANT]
+====
+If the `platform: none` field is defined in the `install-config.yaml` file, virtual machines (VMs) configured to use virtual hardware version 14 or greater might result in a failed installation. It is recommended to configure VMs with virtual hardware version 13. For more information, see link:https://bugzilla.redhat.com/show_bug.cgi?id=1935539[BZ#1935539].
+====
+endif::bare-metal,agnostic[]
+
 ifndef::openshift-origin[]
 Note that {op-system} is based on {op-system-base-full} 8 and inherits all of its hardware certifications and requirements.
 endif::[]
@@ -103,13 +113,15 @@ endif::vsphere[]
 == Network connectivity requirements
 
 All the {op-system-first} machines require network in `initramfs` during boot to fetch Ignition config files from the Machine Config Server.
+ifndef::ibm-z[]
+During the initial boot, the machines require either a DHCP server or that static IP addresses be set in order to establish a network connection to download their Ignition config files.
+endif::ibm-z[]
 ifdef::ibm-z[]
 The machines are configured with static IP addresses. No DHCP server is required.
 endif::ibm-z[]
+Additionally, each {product-title} node in the cluster must have access to a Network Time Protocol (NTP) server.
 ifndef::ibm-z[]
-During the initial boot, the machines require either a DHCP server
-or that static IP addresses be set to establish a network
-connection to download their Ignition config files.
+If a DHCP server provides NTP servers information, the chrony time service on the {op-system-first} machines read the information and can sync the clock with the NTP servers.
 endif::ibm-z[]
 
 ifdef::ibm-z[]
@@ -153,7 +165,7 @@ ifndef::ibm-power[|4]
 ifndef::openshift-origin[]
 |Compute
 ifdef::ibm-z,ibm-power[|{op-system}]
-ifndef::ibm-z,ibm-power[|{op-system} or RHEL 7.8 - 7.9]
+ifndef::ibm-z,ibm-power[|{op-system} or RHEL 7.9]
 |2
 |8 GB
 |120 GB
@@ -367,4 +379,7 @@ ifeval::["{context}" == "installing-bare-metal-network-customizations"]
 endif::[]
 ifeval::["{context}" == "installing-restricted-networks-bare-metal"]
 :!bare-metal:
+endif::[]
+ifeval::["{context}" == "installing-platform-agnostic"]
+:!agnostic:
 endif::[]

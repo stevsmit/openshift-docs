@@ -6,6 +6,7 @@
 // * installing/installing_aws/installing-aws-network-customizations.adoc
 // * installing/installing_aws/installing-aws-private.adoc
 // * installing/installing_aws/installing-aws-vpc.adoc
+// * installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.adoc
 // * installing/installing_azure/installing-azure-customizations.adoc
 // * installing/installing_azure/installing-azure-default.adoc
 // * installing/installing_azure/installing-azure-government-region.adoc
@@ -15,6 +16,7 @@
 // * installing/installing_gcp/installing-gcp-private.adoc
 // * installing/installing_gcp/installing-gcp-default.adoc
 // * installing/installing_gcp/installing-gcp-vpc.adoc
+// * installing/installing_gcp/installing-restricted-networks-gcp-installer-provisioned.adoc
 // * installing/installing_openstack/installing-openstack-installer-custom.adoc
 // * installing/installing_openstack/installing-openstack-installer-kuryr.adoc
 // * installing/installing_openstack/installing-openstack-installer.adoc
@@ -47,6 +49,10 @@ ifeval::["{context}" == "installing-aws-vpc"]
 :custom-config:
 :aws:
 endif::[]
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:custom-config:
+:aws:
+endif::[]
 ifeval::["{context}" == "installing-aws-default"]
 :no-config:
 :aws:
@@ -65,6 +71,10 @@ ifeval::["{context}" == "installing-gcp-vpc"]
 endif::[]
 ifeval::["{context}" == "installing-gcp-default"]
 :no-config:
+:gcp:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-gcp-installer-provisioned"]
+:custom-config:
 :gcp:
 endif::[]
 ifeval::["{context}" == "installing-azure-customizations"]
@@ -285,11 +295,16 @@ If you provide a name that is longer
 than 6 characters, only the first 6 characters will be used in the infrastructure
 ID that is generated from the cluster name.
 endif::gcp[]
+ifndef::openshift-origin[]
 .. Paste the pull secret that you obtained from the
 link:https://cloud.redhat.com/openshift/install/pull-secret[Pull Secret] page on the {cloud-redhat-com} site.
+endif::openshift-origin[]
 ifdef::openshift-origin[]
-This field is optional.
-endif::[]
+.. Paste the pull secret that you obtained from the
+link:https://cloud.redhat.com/openshift/install/pull-secret[Pull Secret] page on the {cloud-redhat-com} site. 
+* If you do not have a pull secret from the {cloud-redhat-com} site, you can paste the pull secret another private registry. 
+* If you do not need the cluster to pull images from a private registry, you can paste `{"auths":{"fake":{"auth":"aWQ6cGFzcwo="}}}` as the pull secret. 
+endif::openshift-origin[]
 endif::rhv[]
 ifdef::rhv[]
 Respond to the installation program prompts.
@@ -436,6 +451,10 @@ ifeval::["{context}" == "installing-aws-vpc"]
 :!custom-config:
 :!aws:
 endif::[]
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:!custom-config:
+:!aws:
+endif::[]
 ifeval::["{context}" == "installing-aws-default"]
 :!no-config:
 :!aws:
@@ -458,6 +477,10 @@ ifeval::["{context}" == "installing-gcp-vpc"]
 endif::[]
 ifeval::["{context}" == "installing-gcp-default"]
 :!no-config:
+:!gcp:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-gcp-installer-provisioned"]
+:!custom-config:
 :!gcp:
 endif::[]
 ifeval::["{context}" == "installing-azure-customizations"]

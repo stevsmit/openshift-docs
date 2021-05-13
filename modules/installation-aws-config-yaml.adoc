@@ -5,6 +5,7 @@
 // * installing/installing_aws/installing-aws-network-customizations.adoc
 // * installing/installing_aws/installing-aws-private.adoc
 // * installing/installing_aws/installing-aws-vpc.adoc
+// * installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.adoc
 
 ifeval::["{context}" == "installing-aws-network-customizations"]
 :with-networking:
@@ -24,7 +25,9 @@ ifeval::["{context}" == "installing-aws-government-region"]
 :private:
 :gov:
 endif::[]
-
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:restricted:
+endif::[]
 
 [id="installation-aws-config-yaml_{context}"]
 = Sample customized `install-config.yaml` file for AWS
@@ -114,7 +117,7 @@ endif::gov[]
     userTags:
       adminContact: jdoe
       costCenter: 7536
-ifdef::vpc[]
+ifdef::vpc,restricted[]
     subnets: <7>
     - subnet-1
     - subnet-2
@@ -123,24 +126,24 @@ ifdef::vpc[]
     serviceEndpoints: <9>
       - name: ec2
         url: https://vpce-id.ec2.us-west-2.vpce.amazonaws.com
-endif::vpc[]
-ifndef::vpc[]
+    hostedZone: Z3URY6TWQ91KVV <10>
+endif::vpc,restricted[]
+ifndef::vpc,restricted[]
     amiID: ami-96c6f8f7 <7>
     serviceEndpoints: <8>
       - name: ec2
         url: https://vpce-id.ec2.us-west-2.vpce.amazonaws.com
-endif::vpc[]
-pullSecret: '{"auths": ...}' <1>
-ifdef::vpc[]
+endif::vpc,restricted[]
+ifdef::vpc,restricted[]
 ifndef::openshift-origin[]
-fips: false <10>
-sshKey: ssh-ed25519 AAAA... <11>
+fips: false <11>
+sshKey: ssh-ed25519 AAAA... <12>
 endif::openshift-origin[]
 ifdef::openshift-origin[]
-sshKey: ssh-ed25519 AAAA... <10>
+sshKey: ssh-ed25519 AAAA... <11>
 endif::openshift-origin[]
-endif::vpc[]
-ifndef::vpc[]
+endif::vpc,restricted[]
+ifndef::vpc,restricted[]
 ifndef::openshift-origin[]
 fips: false <9>
 sshKey: ssh-ed25519 AAAA... <10>
@@ -148,33 +151,54 @@ endif::openshift-origin[]
 ifdef::openshift-origin[]
 sshKey: ssh-ed25519 AAAA... <9>
 endif::openshift-origin[]
-endif::vpc[]
+endif::vpc,restricted[]
 ifdef::private[]
 ifndef::openshift-origin[]
+publish: Internal <13>
+endif::openshift-origin[]
+endif::private[]
+ifndef::restricted[]
+pullSecret: '{"auths": ...}' <1>
+endif::restricted[]
+ifdef::restricted[]
+pullSecret: '{"auths":{"<local_registry>": {"auth": "<credentials>","email": "you@example.com"}}}' <13>
+endif::restricted[]
+ifdef::gov[]
+ifndef::openshift-origin[]
+additionalTrustBundle: | <14>
+    -----BEGIN CERTIFICATE-----
+    <MY_TRUSTED_CA_CERT>
+    -----END CERTIFICATE-----
+endif::openshift-origin[]
+endif::gov[]
+ifdef::private[]
+ifdef::openshift-origin[]
 publish: Internal <12>
 endif::openshift-origin[]
 endif::private[]
 ifdef::gov[]
-ifndef::openshift-origin[]
+ifdef::openshift-origin[]
 additionalTrustBundle: | <13>
     -----BEGIN CERTIFICATE-----
     <MY_TRUSTED_CA_CERT>
     -----END CERTIFICATE-----
 endif::openshift-origin[]
 endif::gov[]
-ifdef::private[]
-ifdef::openshift-origin[]
-publish: Internal <11>
-endif::openshift-origin[]
-endif::private[]
-ifdef::gov[]
-ifdef::openshift-origin[]
-additionalTrustBundle: | <12>
+ifdef::restricted[]
+additionalTrustBundle: | <14>
     -----BEGIN CERTIFICATE-----
     <MY_TRUSTED_CA_CERT>
     -----END CERTIFICATE-----
-endif::openshift-origin[]
-endif::gov[]
+imageContentSources: <15>
+- mirrors:
+  - <local_registry>/<local_repository_name>/release
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - <local_registry>/<local_repository_name>/release
+  source: registry.svc.ci.openshift.org/ocp/release
+endif::restricted[]
+
+
 ----
 ifndef::gov[]
 <1> Required. The installation program prompts you for this value.
@@ -208,24 +232,25 @@ disable simultaneous multithreading.
 ====
 <6> To configure faster storage for etcd, especially for larger clusters, set the
 storage type as `io1` and set `iops` to `2000`.
-ifdef::vpc[]
+ifdef::vpc,restricted[]
 <7> If you provide your own VPC, specify subnets for each availability zone that your cluster uses.
 <8> The ID of the AMI used to boot machines for the cluster. If set, the AMI
 must belong to the same region as the cluster.
 <9> The AWS service endpoints. Custom endpoints are required when installing to
 an unknown AWS region. The endpoint URL must use the `https` protocol and the
 host must trust the certificate.
+<10> The ID of your existing Route 53 private hosted zone. Providing an existing hosted zone requires that you supply your own VPC and the hosted zone is already associated with the VPC prior to installing your cluster. If undefined, the installation program creates a new hosted zone.
 ifndef::openshift-origin[]
-<10> Whether to enable or disable FIPS mode. By default, FIPS mode is not enabled. If FIPS mode is enabled, the {op-system-first} machines that {product-title} runs on bypass the default Kubernetes cryptography suite and use the cryptography modules that are provided with {op-system} instead.
-<11> You can optionally provide the `sshKey` value that you use to access the
+<11> Whether to enable or disable FIPS mode. By default, FIPS mode is not enabled. If FIPS mode is enabled, the {op-system-first} machines that {product-title} runs on bypass the default Kubernetes cryptography suite and use the cryptography modules that are provided with {op-system} instead.
+<12> You can optionally provide the `sshKey` value that you use to access the
 machines in your cluster.
 endif::openshift-origin[]
 ifdef::openshift-origin[]
-<10> You can optionally provide the `sshKey` value that you use to access the
+<11> You can optionally provide the `sshKey` value that you use to access the
 machines in your cluster.
 endif::openshift-origin[]
-endif::vpc[]
-ifndef::vpc[]
+endif::vpc,restricted[]
+ifndef::vpc,restricted[]
 <7> The ID of the AMI used to boot machines for the cluster. If set, the AMI
 must belong to the same region as the cluster.
 <8> The AWS service endpoints. Custom endpoints are required when installing to
@@ -240,18 +265,26 @@ ifdef::openshift-origin[]
 <9> You can optionally provide the `sshKey` value that you use to access the
 machines in your cluster.
 endif::openshift-origin[]
-endif::vpc[]
+endif::vpc,restricted[]
 +
 [NOTE]
 ====
 For production {product-title} clusters on which you want to perform installation debugging or disaster recovery, specify an SSH key that your `ssh-agent` process uses.
 ====
 ifdef::private[]
-<12> How to publish the user-facing endpoints of your cluster. Set `publish` to `Internal` to deploy a private cluster, which cannot be accessed from the Internet. The default value is `External`.
+<13> How to publish the user-facing endpoints of your cluster. Set `publish` to `Internal` to deploy a private cluster, which cannot be accessed from the Internet. The default value is `External`.
 endif::private[]
 ifdef::gov[]
-<13> The custom CA certificate. This is required when deploying to the AWS C2S Secret Region because the AWS API requires a custom CA trust bundle.
+<14> The custom CA certificate. This is required when deploying to the AWS C2S Secret Region because the AWS API requires a custom CA trust bundle.
 endif::gov[]
+ifdef::restricted[]
+<13> For `<local_registry>`, specify the registry domain name, and optionally the
+port, that your mirror registry uses to serve content. For example
+`registry.example.com` or `registry.example.com:5000`. For `<credentials>`,
+specify the base64-encoded user name and password for your mirror registry.
+<14> Provide the contents of the certificate file that you used for your mirror registry.
+<15> Provide the `imageContentSources` section from the output of the command to mirror the repository.
+endif::restricted[]
 
 ifeval::["{context}" == "installing-aws-network-customizations"]
 :!with-networking:
@@ -270,4 +303,7 @@ ifeval::["{context}" == "installing-aws-government-region"]
 :!vpc:
 :!private:
 :!gov:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:!restricted:
 endif::[]

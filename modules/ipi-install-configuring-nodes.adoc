@@ -24,8 +24,8 @@ While the cluster nodes can contain more than two NICs, the installation process
 
 NIC1 is a non-routable network (`provisioning`) that is only used for the installation of the {product-title} cluster.
 
-The {op-system-base-full} 8.x installation process on the provisioner node might vary. To install {op-system-base-full} 8.x using a local Satellite server or a PXE server, PXE-enable NIC2.
-
+ifndef::openshift-origin[The {op-system-base-full} 8.x installation process on the provisioner node might vary. To install {op-system-base-full} 8.x using a local Satellite server or a PXE server, PXE-enable NIC2.]
+ifdef::openshift-origin[The {op-system-first} installation process on the provisioner node might vary. To install {op-system} using a local Satellite server or a PXE server, PXE-enable NIC2.]
 
 |===
 |PXE |Boot order
@@ -45,7 +45,7 @@ Configure the control plane and worker nodes as follows:
 | NIC1 PXE-enabled (provisioning network) | 1
 |===
 
-ifeval::[{release} > 4.3]
+ifeval::[{product-version} > 4.3]
 
 .Configuring nodes without the `provisioning` network
 
@@ -60,7 +60,7 @@ NICx is a routable network (`baremetal`) that is used for the installation of th
 
 endif::[]
 
-ifeval::[{release} > 4.6]
+ifeval::[{product-version} > 4.6]
 .Configuring nodes for Secure Boot
 
 Secure Boot prevents a node from booting unless it verifies the node is using only trusted software, such as UEFI firmware drivers, EFI applications and the operating system. Red Hat only supports Secure Boot when deploying with RedFish Virtual Media.

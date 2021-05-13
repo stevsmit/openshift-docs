@@ -30,10 +30,16 @@ By pulling container images needed by {product-title} and then bringing those im
 Even if you don't configure mirroring during {product-title} installation, you can do so later using the `ImageContentSourcePolicy` object.
 
 The following procedure provides a post-installation mirror configuration, where you create an `ImageContentSourcePolicy` object that identifies:
-
+--
 * The source of the container image repository you want to mirror.
 * A separate entry for each mirror repository you want to offer the content
 requested from the source repository.
+--
+
+[NOTE]
+====
+You can only configure global pull secrets for clusters that have an `ImageContentSourcePolicy` object. You cannot add a pull secret to a project. 
+====
 
 .Prerequisites
 * Access to the cluster as a user with the `cluster-admin` role.
@@ -100,12 +106,12 @@ $ oc get node
 [source,terminal]
 ----
 NAME                           STATUS                     ROLES    AGE  VERSION
-ip-10-0-137-44.ec2.internal    Ready                      worker   7m   v1.20.0
-ip-10-0-138-148.ec2.internal   Ready                      master   11m  v1.20.0
-ip-10-0-139-122.ec2.internal   Ready                      master   11m  v1.20.0
-ip-10-0-147-35.ec2.internal    Ready,SchedulingDisabled   worker   7m   v1.20.0
-ip-10-0-153-12.ec2.internal    Ready                      worker   7m   v1.20.0
-ip-10-0-154-10.ec2.internal    Ready                      master   11m  v1.20.0
+ip-10-0-137-44.ec2.internal    Ready                      worker   7m   v1.21.0
+ip-10-0-138-148.ec2.internal   Ready                      master   11m  v1.21.0
+ip-10-0-139-122.ec2.internal   Ready                      master   11m  v1.21.0
+ip-10-0-147-35.ec2.internal    Ready,SchedulingDisabled   worker   7m   v1.21.0
+ip-10-0-153-12.ec2.internal    Ready                      worker   7m   v1.21.0
+ip-10-0-154-10.ec2.internal    Ready                      master   11m  v1.21.0
 ----
 +
 You can see that scheduling on each worker node is disabled as the change is being applied.

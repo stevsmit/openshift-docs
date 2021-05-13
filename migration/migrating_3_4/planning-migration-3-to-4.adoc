@@ -58,7 +58,7 @@ In {product-title} {product-version}, you use the OpenShift installation program
 For more information, see xref:../../architecture/architecture-installation.adoc#installation-process_architecture-installation[Installation process].
 
 ifndef::openshift-origin[]
-If you want to add {op-system-base-full} ({op-system-base}) worker machines to your {product-title} {product-version} cluster, you use an Ansible playbook to join the {op-system-base} worker machines after the cluster is running. For more information, see xref:../../machine_management/user_infra/adding-rhel-compute.adoc#adding-rhel-compute[Adding {op-system-base} compute machines to an {product-title} cluster].
+If you want to add {op-system-base-full} ({op-system-base}) worker machines to your {product-title} {product-version} cluster, you use an Ansible playbook to join the {op-system-base} worker machines after the cluster is running. For more information, see xref:../../machine_management/adding-rhel-compute.adoc#adding-rhel-compute[Adding {op-system-base} compute machines to an {product-title} cluster].
 endif::[]
 
 [discrete]
@@ -141,15 +141,6 @@ The default network isolation mode for {product-title} 3.11 was `ovs-subnet`, th
 If your {product-title} 3.11 cluster used the `ovs-subnet` or `ovs-multitenant` mode, it is recommended to switch to a network policy for your {product-title} {product-version} cluster. Network policies are supported upstream, are more flexible, and they provide the functionality that `ovs-multitenant` does. If you want to maintain the `ovs-multitenant` behavior while using a network policy in {product-title} {product-version}, follow the steps to xref:../../networking/network_policy/multitenant-network-policy.adoc#multitenant-network-policy[configure multitenant isolation using network policy].
 
 For more information, see xref:../../networking/network_policy/about-network-policy.adoc#about-network-policy[About network policy].
-
-[discrete]
-==== Encrypting traffic between hosts
-
-In {product-title} 3.11, you could use IPsec to encrypt traffic between hosts. {product-title} {product-version} does not support IPsec. It is recommended to use Red Hat OpenShift Service Mesh to enable mutual TLS between services.
-
-ifndef::openshift-origin[]
-For more information, see xref:../../service_mesh/v1x/ossm-architecture.adoc#ossm-architecture-v1x[Understanding Red Hat OpenShift Service Mesh].
-endif::[]
 
 [id="migration-preparing-logging"]
 === Logging considerations

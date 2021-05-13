@@ -141,6 +141,8 @@ Topics:
     File: installing-aws-customizations
   - Name: Installing a cluster on AWS with network customizations
     File: installing-aws-network-customizations
+  - Name: Installing a cluster on AWS in a restricted network
+    File: installing-restricted-networks-aws-installer-provisioned
   - Name: Installing a cluster on AWS into an existing VPC
     File: installing-aws-vpc
   - Name: Installing a private cluster on AWS
@@ -189,6 +191,8 @@ Topics:
     File: installing-gcp-customizations
   - Name: Installing a cluster on GCP with network customizations
     File: installing-gcp-network-customizations
+  - Name: Installing a cluster on GCP in a restricted network
+    File: installing-restricted-networks-gcp-installer-provisioned
   - Name: Installing a cluster on GCP into an existing VPC
     File: installing-gcp-vpc
   - Name: Installing a private cluster on GCP
@@ -508,6 +512,8 @@ Topics:
   Dir: developer_cli_odo
   Distros: openshift-enterprise,openshift-origin,openshift-dedicated,openshift-online
   Topics:
+  - Name: odo release notes
+    File: odo-release-notes
   - Name: Understanding odo
     File: understanding-odo
   - Name: Installing odo
@@ -544,6 +550,8 @@ Topics:
       File: pushing-the-odo-init-image-to-the-restricted-cluster-registry
     - Name: Creating and deploying a component to the disconnected cluster
       File: creating-and-deploying-a-component-to-the-disconnected-cluster
+    - Name: Creating and deploying devfile components to the disconnected cluster
+      File: creating-and-deploying-devfile-components-to-the-disconnected-cluster
   - Name: Creating instances of services managed by Operators
     File: creating-instances-of-services-managed-by-operators
   - Name: Managing environment variables in odo
@@ -554,8 +562,6 @@ Topics:
     File: odo-cli-reference
   - Name: odo architecture
     File: odo-architecture
-  - Name: odo release notes
-    File: odo-release-notes
 - Name: Helm CLI
   Dir: helm_cli
   Distros: openshift-enterprise,openshift-origin
@@ -639,6 +645,8 @@ Topics:
   - Name: Hardening Red Hat Enterprise Linux CoreOS
     File: security-hardening
     Distros: openshift-enterprise,openshift-aro
+  - Name: Container image signatures
+    File: security-container-signature
   - Name: Hardening Fedora CoreOS
     File: security-hardening
     Distros: openshift-origin
@@ -1031,8 +1039,6 @@ Topics:
   Dir: persistent_storage
   Distros: openshift-enterprise,openshift-origin
   Topics:
-  - Name: Persistent storage using Amazon EFS
-    File: persistent-storage-efs
   - Name: Persistent storage using AWS Elastic Block Store
     File: persistent-storage-aws
   - Name: Persistent storage using Azure Disk
@@ -1403,6 +1409,10 @@ Topics:
     File: images-other-jenkins
   - Name: Jenkins agent
     File: images-other-jenkins-agent
+  - Name: Source-to-image
+    File: using-s21-images
+  - Name: Customizing source-to-image images
+    File: customizing-s2i-images
 ---
 Name: Applications
 Dir: applications
@@ -1507,15 +1517,15 @@ Topics:
   File: applying-autoscaling
 - Name: Creating infrastructure machine sets
   File: creating-infrastructure-machinesets
+- Name: Adding a RHEL compute machine
+  File: adding-rhel-compute
+  Distros: openshift-enterprise
+- Name: Adding more RHEL compute machines
+  File: more-rhel-compute
+  Distros: openshift-enterprise
 - Name: User-provisioned infrastructure
   Dir: user_infra
   Topics:
-  - Name: Adding a RHEL compute machine
-    File: adding-rhel-compute
-    Distros: openshift-enterprise
-  - Name: Adding more RHEL compute machines
-    File: more-rhel-compute
-    Distros: openshift-enterprise
   - Name: Adding compute machines to AWS using CloudFormation templates
     File: adding-aws-compute-user-infra
   - Name: Adding compute machines to vSphere
@@ -1900,7 +1910,6 @@ Topics:
 - Name: Performance Addon Operator for low latency nodes
   File: cnf-performance-addon-operator-for-low-latency-nodes
   Distros: openshift-origin,openshift-enterprise
-  Distros: openshift-origin,openshift-enterprise
 - Name: Provisioning and deploying a distributed unit (DU)
   File: cnf-provisioning-and-deploying-a-distributed-unit
   Distros: openshift-webscale
@@ -1940,16 +1949,12 @@ Topics:
     File: planning-migration-3-to-4
   - Name: About the Migration Toolkit for Containers
     File: migrating-application-workloads-3-4
-  - Name: Deploying the Migration Toolkit for Containers
+  - Name: Installing and upgrading the Migration Toolkit for Containers
     File: deploying-cam-3-4
-  - Name: Upgrading the Migration Toolkit for Containers
-    File: upgrading-migration-tool-3-4
-  - Name: Configuring a replication repository
+  - Name: Configuring object storage for a replication repository
     File: configuring-replication-repository-3-4
   - Name: Migrating your applications
     File: migrating-applications-with-cam-3-4
-  - Name: Migrating your control plane settings
-    File: migrating-with-cpma
   - Name: Troubleshooting
     File: troubleshooting-3-4
 - Name: Migrating from OpenShift Container Platform 4.1
@@ -1958,11 +1963,9 @@ Topics:
   Topics:
   - Name: About the Migration Toolkit for Containers
     File: migrating-application-workloads-4-1-4
-  - Name: Deploying the Migration Toolkit for Containers
+  - Name: Installing and upgrading the Migration Toolkit for Containers
     File: deploying-cam-4-1-4
-  - Name: Upgrading the Migration Toolkit for Containers
-    File: upgrading-migration-tool-4-1-4
-  - Name: Configuring a replication repository
+  - Name: Configuring object storage for a replication repository
     File: configuring-replication-repository-4-1-4
   - Name: Migrating your applications
     File: migrating-applications-with-cam-4-1-4
@@ -1974,11 +1977,9 @@ Topics:
   Topics:
   - Name: About the Migration Toolkit for Containers
     File: migrating-application-workloads-4-2-4
-  - Name: Deploying the Migration Toolkit for Containers
+  - Name: Installing and upgrading the Migration Toolkit for Containers
     File: deploying-cam-4-2-4
-  - Name: Upgrading the Migration Toolkit for Containers
-    File: upgrading-migration-tool-4-2-4
-  - Name: Configuring a replication repository
+  - Name: Configuring object storage for a replication repository
     File: configuring-replication-repository-4-2-4
   - Name: Migrating your applications
     File: migrating-applications-with-cam-4-2-4
@@ -2657,6 +2658,8 @@ Topics:
     Dir: advanced_vm_management
     Topics:
 #Advanced virtual machine configuration
+    - Name: Specifying nodes for virtual machines
+      File: virt-specifying-nodes-for-vms
     - Name: Automating management tasks
       File: virt-automating-management-tasks
     - Name: EFI mode for virtual machines
@@ -2938,6 +2941,18 @@ Topics:
 # Knative Kafka
 - Name: Using Apache Kafka with OpenShift Serverless
   File: serverless-kafka
+# Functions - uncomment at tech preview
+# - Name: OpenShift Serverless Functions
+#   Dir: functions
+#  Topics:
+#  - Name: About OpenShift Serverless Functions
+#    File: serverless-functions-about
+#  - Name: Getting started
+#    File: serverless-functions-getting-started
+#  - Name: Setting up OpenShift Serverless Functions
+#    File: serverless-functions-setup
+#  - Name: Developing Python functions
+#    File: serverless-developing-python-functions
 # Networking
 - Name: Networking
   Dir: networking
@@ -2970,5 +2985,7 @@ Topics:
 - Name: CLI reference
   Dir: cli_reference
   Topics:
+  - Name: Advanced kn configuration
+    File: advanced-kn-config
   - Name: kn service
     File: kn-services-ref

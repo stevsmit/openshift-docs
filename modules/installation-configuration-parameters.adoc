@@ -5,6 +5,7 @@
 // * installing/installing_aws/installing-aws-network-customizations.adoc
 // * installing/installing_aws/installing-aws-private.adoc
 // * installing/installing_aws/installing-aws-vpc.adoc
+// * installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.adoc
 // * installing/installing_azure/installing-azure-customizations.adoc
 // * installing/installing_azure/installing-azure-government-region.adoc
 // * installing/installing_azure/installing-azure-network-customizations.adoc
@@ -14,6 +15,7 @@
 // * installing/installing_gcp/installing-gcp-private.adoc
 // * installing/installing_gcp/installing-gcp-network-customizations.adoc
 // * installing/installing_gcp/installing-gcp-vpc.adoc
+// * installing/installing_gcp/installing-restricted-networks-gcp-installer-provisioned.adoc
 // * installing/installing_openstack/installing-openstack-installer-custom.adoc
 // * installing/installing_openstack/installing-openstack-installer-kuryr.adoc
 // * installing/installing_openstack/installing-openstack-user.adoc
@@ -41,6 +43,9 @@ endif::[]
 ifeval::["{context}" == "installing-aws-vpc"]
 :aws:
 endif::[]
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:aws:
+endif::[]
 ifeval::["{context}" == "installing-azure-customizations"]
 :azure:
 endif::[]
@@ -66,6 +71,9 @@ ifeval::["{context}" == "installing-gcp-network-customizations"]
 :gcp:
 endif::[]
 ifeval::["{context}" == "installing-gcp-vpc"]
+:gcp:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-gcp-installer-provisioned"]
 :gcp:
 endif::[]
 ifeval::["{context}" == "installing-aws-customizations"]
@@ -348,24 +356,38 @@ networking:
 |`networking.machineNetwork.cidr`
 |Required if you use `networking.machineNetwork`. An IP address block. The default is `10.0.0.0/16` for all platforms other than libvirt. For libvirt, the default is `192.168.126.0/24`.
 |IP network in Classless Inter-Domain Routing (CIDR) notation. For example, `10.0.0.0/16`.
+[NOTE]
+====
+Set the `networking.machineNetwork` to match the CIDR that the preferred NIC resides in.
+====
+
 
 |`publish`
 |How to publish or expose the user-facing endpoints of your cluster, such as the Kubernetes API, OpenShift routes.
-|`Internal` or `External`. To deploy a private cluster, which cannot be accessed from the internet, set `publish` to `Internal`. The default value is `External`.
+|
+ifdef::aws,azure,gcp[]
+`Internal` or `External`. To deploy a private cluster, which cannot be accessed from the internet, set `publish` to `Internal`. The default value is `External`.
+endif::[]
+ifndef::aws,azure,gcp[]
+`Internal` or `External`. The default value is `External`.
+
+Setting this field to `Internal` is not supported on non-cloud platforms.
+ifeval::[{product-version} <= 4.7]
+[IMPORTANT]
+====
+If the value of the field is set to `Internal`, the cluster will become non-functional. For more information, refer to link:https://bugzilla.redhat.com/show_bug.cgi?id=1953035[BZ#1953035].
+====
+endif::[]
+endif::[]
 
 |`sshKey`
-| The SSH key or keys to authenticate access your cluster machines.
+| The SSH key to authenticate access to your cluster machines.
 [NOTE]
 ====
 For production {product-title} clusters on which you want to perform installation debugging or disaster recovery, specify an SSH key that your `ssh-agent` process uses.
 ====
-a|One or more keys. For example:
-```
-sshKey:
-  key1...
-  key2...
-  key3...
-```
+a|For example, `sshKey: ssh-ed25519 AAAA..`.
+
 |====
 
 
@@ -378,6 +400,10 @@ ifdef::aws[]
 |`compute.platform.aws.amiID`
 |The AWS AMI used to boot compute machines for the cluster. This is required for regions that require a custom {op-system} AMI.
 |Any published or custom {op-system} AMI that belongs to the set AWS region.
+
+|`compute.platform.aws.iamRole`
+|A pre-existing AWS IAM role applied to the compute machine pool instance profiles. You can use these fields to match naming schemes and include predefined permissions boundaries for your IAM roles. If undefined, the installation program creates a new IAM role.
+|The name of a valid AWS IAM role.
 
 |`compute.platform.aws.rootVolume.iops`
 |The Input/Output Operations Per Second (IOPS) that is reserved for the root volume.
@@ -409,6 +435,10 @@ link:https://yaml.org/spec/1.2/spec.html#sequence//[YAML sequence].
 |The AWS AMI used to boot control plane machines for the cluster.  This is required for regions that require a custom {op-system} AMI.
 |Any published or custom {op-system} AMI that belongs to the set AWS region.
 
+|`controlPlane.platform.aws.iamRole`
+|A pre-existing AWS IAM role applied to the control plane machine pool instance profiles. You can use these fields to match naming schemes and include predefined permissions boundaries for your IAM roles. If undefined, the installation program creates a new IAM role.
+|The name of a valid AWS IAM role.
+
 |`controlPlane.platform.aws.type`
 |The EC2 instance type for the control plane machines.
 |Valid link:https://aws.amazon.com/ec2/instance-types/[AWS instance type], such as `c5.9xlarge`.
@@ -426,6 +456,10 @@ control plane machine pool.
 |The AWS AMI used to boot all machines for the cluster. If set, the AMI must
 belong to the same region as the cluster. This is required for regions that require a custom {op-system} AMI.
 |Any published or custom {op-system} AMI that belongs to the set AWS region.
+
+|`platform.aws.hostedZone`
+|An existing Route 53 private hosted zone for the cluster. You can only use a pre-existing hosted zone when also supplying your own VPC. The hosted zone must already be associated with the user-provided VPC before installation. Also, the domain of the hosted zone must be the cluster domain or a parent of the cluster domain. If undefined, the installation program creates a new hosted zone.
+|String, for example `Z3URY6TWQ91KVV`.
 
 |`platform.aws.serviceEndpoints.name`
 |The AWS service endpoint name. Custom endpoints are only required for cases
@@ -895,6 +929,9 @@ endif::[]
 ifeval::["{context}" == "installing-aws-vpc"]
 :!aws:
 endif::[]
+ifeval::["{context}" == "installing-restricted-networks-aws-installer-provisioned"]
+:!aws:
+endif::[]
 ifeval::["{context}" == "installing-azure-customizations"]
 :!azure:
 endif::[]
@@ -920,6 +957,9 @@ ifeval::["{context}" == "installing-gcp-network-customizations"]
 :!gcp:
 endif::[]
 ifeval::["{context}" == "installing-gcp-vpc"]
+:!gcp:
+endif::[]
+ifeval::["{context}" == "installing-restricted-networks-gcp-installer-provisioned"]
 :!gcp:
 endif::[]
 ifeval::["{context}" == "installing-aws-customizations"]
