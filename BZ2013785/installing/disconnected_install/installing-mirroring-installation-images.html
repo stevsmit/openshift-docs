@@ -31554,7 +31554,6 @@
 </li>
 <li><a href="#installation-adding-registry-pull-secret_installing-mirroring-installation-images">Configuring credentials that allow images to be mirrored</a></li>
 <li><a href="#installation-mirror-repository_installing-mirroring-installation-images">Mirroring the OpenShift Container Platform image repository</a></li>
-<li><a href="#ipi-modify-a-disconnected-registry-config-yaml_installing-mirroring-installation-images">Modify the <code>install-config.yaml</code> file to use the disconnected registry</a></li>
 <li><a href="#installing-preparing-samples-operator">The Cluster Samples Operator in a disconnected environment</a>
 <ul class="sectlevel2">
 <li><a href="#installation-images-samples-disconnected-mirroring-assist_installing-mirroring-installation-images">Cluster Samples Operator assistance for mirroring</a></li>
@@ -32307,71 +32306,6 @@ content.</p>
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>openshift-install</code></pre>
 </div>
 </div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="ipi-modify-a-disconnected-registry-config-yaml_installing-mirroring-installation-images"><a class="anchor" href="#ipi-modify-a-disconnected-registry-config-yaml_installing-mirroring-installation-images"></a>Modify the <code>install-config.yaml</code> file to use the disconnected registry</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The <code>install-config.yaml</code> file must contain the disconnected registry node&#8217;s certificate and registry information.</p>
-</div>
-<div class="olist arabic">
-<div class="title">Procedure</div>
-<ol class="arabic">
-<li>
-<p>Edit the <code>install-config.yaml</code> file to provide the mirror information for the registry.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Update the <code>pullSecret</code> value to contain the authentication information from your registry:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>pullSecret: <span class="s1">'{"auths":{"&lt;mirror_host_name&gt;:5000": {"auth": "&lt;credentials&gt;","email": "you@example.com"}}}'</span><span class="nt">----</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For <code>&lt;mirror_host_name&gt;</code>, specify the registry domain name that you specified in the certificate for your mirror registry, and for <code>&lt;credentials&gt;`</code>, specify the base64-encoded user name and password for your mirror registry.</p>
-</div>
-</li>
-<li>
-<p>Add the <code>additionalTrustBundle</code> parameter and value:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">additionalTrustBundle</span><span class="pi">:</span> <span class="pi">|</span>
-  <span class="s">-----BEGIN CERTIFICATE-----</span>
-  <span class="s">ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ</span>
-  <span class="s">-----END CERTIFICATE-----</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The value must be the contents of the certificate file that you used for your mirror registry, which can be an existing, trusted certificate authority or the self-signed certificate that you generated for the mirror registry.</p>
-</div>
-</li>
-<li>
-<p>Add the image content resources, which look like this excerpt:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="yaml"><span class="na">imageContentSources</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">mirrors</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">&lt;mirror_host_name&gt;:5000/&lt;repo_name&gt;/release</span>
-  <span class="na">source</span><span class="pi">:</span> <span class="s">quay.example.com/openshift-release-dev/ocp-release</span>
-<span class="pi">-</span> <span class="na">mirrors</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">&lt;mirror_host_name&gt;:5000/&lt;repo_name&gt;/release</span>
-  <span class="na">source</span><span class="pi">:</span> <span class="s">registry.example.com/ocp/release</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To complete these values, use the <code>imageContentSources</code> that you recorded during mirror registry creation.</p>
-</div>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Make any other modifications to the <code>install-config.yaml</code> file that you require. You can find more information about the available parameters in the <strong>Installation configuration parameters</strong> section.</p>
 </li>
 </ol>
 </div>
