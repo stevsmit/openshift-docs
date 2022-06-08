@@ -31362,7 +31362,7 @@
 <div class="sect3">
 <h4 id="ocp-4-11-ovn-internal-traffic-policy-support"><a class="anchor" href="#ocp-4-11-ovn-internal-traffic-policy-support"></a>Internal traffic support for OVN-Kubernetes</h4>
 <div class="paragraph">
-<p>As a cluster administrator, you can configure <code>serviceInternalTraffic=local</code> on a local node endpoint from the OVN-Kubernetes Container Network Interface (CNI) cluster network provider. This feature allows cluster administrators to route traffic to an endpoint on the same node that the traffic originated from.</p>
+<p>As a cluster administrator, you can configure <code>internalTrafficPolicy=Local</code> on a Kubernetes service object when using the OVN-Kubernetes Container Network Interface (CNI) cluster network provider. This feature allows cluster administrators to route traffic to an endpoint on the same node that the traffic originated from. If there are no local node endpoints traffic will be dropped. For more information on this feature, see <a href="https://kubernetes.io/docs/concepts/services-networking/service-traffic-policy">Service Internal Traffic Policy</a>.</p>
 </div>
 </div>
 </div>
