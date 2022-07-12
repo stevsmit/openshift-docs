@@ -379,18 +379,20 @@ main-menu:
             path: support/troubleshooting/diagnosing-oc-issues.adoc
   - name: Web console
     items:
+      - name: Web Console Overview
+        path: web_console/web-console-overview.adoc
       - name: Accessing the web console
         path: web_console/web-console.adoc
       - name: Using the OpenShift Container Platform dashboard to get cluster information
-        path: web_console/using-dashboard-to-get-cluster-information.adoc
+      - path: web_console/using-dashboard-to-get-cluster-information.adoc
       - name: Adding user preferences
         path: web_console/adding-user-preferences.adoc
       - name: Configuring the web console in OpenShift Container Platform
         path: web_console/configuring-web-console.adoc
       - name: Customizing the web console in OpenShift Container Platform
         path: web_console/customizing-the-web-console.adoc
-      - name: About the Developer perspective in the web console
-        path: web_console/odc-about-developer-perspective.adoc
+      - name: Adding a dynamic plug-in to the OpenShift Container Platform web console
+      - path: web_console/dynamic-plug-ins.adoc
       - name: About the web terminal in the web console
         path: web_console/odc-about-web-terminal.adoc
       - name: Disabling the web console in OpenShift Container Platform
