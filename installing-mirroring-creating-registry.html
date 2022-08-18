@@ -192,6 +192,7 @@
             </a>
           
           <select id="version-selector" onchange="versionSelector(this);">
+              <option value="4.11">4.11</option>
               <option value="4.10">4.10</option>
               <option value="4.9">4.9</option>
               <option value="4.8">4.8</option>
@@ -370,7 +371,7 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
-            <li><a class="" href="../../release_notes/ocp-4-11-release-notes.html">OpenShift Container Platform 4.11 release notes</a></li>
+            <li><a class="" href="../../release_notes/ocp-4-12-release-notes.html">OpenShift Container Platform 4.12 release notes</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
       </ul>
@@ -5097,6 +5098,30 @@
                   <li>
                     <a class="" href="../../support/troubleshooting/troubleshooting-storage-issues.html">
                       Troubleshooting storage issues
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../support/troubleshooting/troubleshooting-windows-container-workload-issues.html">
+                      Troubleshooting Windows container workload issues
                     </a>
                   </li>
 
@@ -18328,7 +18353,7 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
-            <li><a class="" href="../../sandboxed_containers/uninstalling-sandboxed-containers.html">Uninstalling OpenShift sandboxed containers workloads</a></li>
+            <li><a class="" href="../../sandboxed_containers/uninstalling-sandboxed-containers.html">Uninstalling OpenShift sandboxed containers</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
 
@@ -18341,7 +18366,7 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
-            <li><a class="" href="../../sandboxed_containers/upgrade-sandboxed-containers.html">Upgrade OpenShift sandboxed containers</a></li>
+            <li><a class="" href="../../sandboxed_containers/upgrading-sandboxed-containers.html">Upgrading OpenShift sandboxed containers</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
 
@@ -19267,6 +19292,19 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
+            <li><a class="" href="../../scalability_and_performance/cnf-numa-aware-scheduling.html">Scheduling NUMA-aware workloads</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
             <li><a class="" href="../../scalability_and_performance/scaling-cluster-monitoring-operator.html">Scaling the Cluster Monitoring Operator</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
@@ -19411,6 +19449,19 @@
             <!-- ^ this establishs whether we are reading this current page -->
 
             <li><a class="" href="../../scalability_and_performance/ztp-configuring-single-node-cluster-deployment-during-installation.html">Deploying distributed units manually on single-node OpenShift</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../scalability_and_performance/ztp-vdu-validating-cluster-tuning.html">Validating cluster tuning for vDU application workloads</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
 
@@ -28689,8 +28740,8 @@
 
 
                     <li>
-                      <a class="" href="../../virt/virtual_machines/advanced_vm_management/virt-efi-mode-for-vms.html" style="padding-left: 70px;">
-                        EFI mode for virtual machines
+                      <a class="" href="../../virt/virtual_machines/advanced_vm_management/virt-uefi-mode-for-vms.html" style="padding-left: 70px;">
+                        UEFI mode for virtual machines
                       </a>
                     </li>
 
@@ -29875,7 +29926,7 @@
 
                   <li>
                     <a class="" href="../../virt/logging_events_monitoring/virt-logs.html">
-                      Viewing logs
+                      Viewing OpenShift Virtualization logs
                     </a>
                   </li>
 
@@ -31724,6 +31775,30 @@
 
 
                   <li>
+                    <a class="" href="../../serverless/integrations/serverless-cost-management-integration.html">
+                      Integrating Serverless with the cost management service
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
                     <a class="" href="../../serverless/integrations/gpu-resources.html">
                       Using NVIDIA GPU resources with serverless applications
                     </a>
@@ -31765,8 +31840,9 @@
 <li><a href="#prerequisites_installing-mirroring-creating-registry">Prerequisites</a></li>
 <li><a href="#mirror-registry-introduction_installing-mirroring-creating-registry">Mirror registry for Red Hat OpenShift introduction</a></li>
 <li><a href="#mirror-registry-localhost_installing-mirroring-creating-registry">Mirroring on a local host with mirror registry for Red Hat OpenShift</a></li>
+<li><a href="#mirror-registry-localhost-update_installing-mirroring-creating-registry">Updating mirror registry for Red Hat OpenShift from a local host</a></li>
 <li><a href="#mirror-registry-remote_installing-mirroring-creating-registry">Mirroring on a remote host with mirror registry for Red Hat OpenShift</a></li>
-<li><a href="#upgrading-mirror-registry_installing-mirroring-creating-registry">Upgrading the mirror registry for Red Hat OpenShift</a></li>
+<li><a href="#mirror-registry-remote-host-update_installing-mirroring-creating-registry">Updating mirror registry for Red Hat OpenShift from a remote host</a></li>
 <li><a href="#uninstalling-mirror-registry_installing-mirroring-creating-registry">Uninstalling the mirror registry for Red Hat OpenShift</a></li>
 <li><a href="#mirror-registry-flags_installing-mirroring-creating-registry">Mirror registry for Red Hat OpenShift flags</a></li>
 <li><a href="#mirror-registry-release-notes_installing-mirroring-creating-registry">Mirror registry for Red Hat OpenShift release notes</a>
@@ -31951,6 +32027,67 @@
 </div>
 </div>
 <div class="sect1">
+<h2 id="mirror-registry-localhost-update_installing-mirroring-creating-registry"><a class="anchor" href="#mirror-registry-localhost-update_installing-mirroring-creating-registry"></a>Updating mirror registry for Red Hat OpenShift from a local host</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This procedure explains how to update the <em>mirror registry for Red Hat OpenShift</em> from a local host using the <code>upgrade</code> command. Updating to the latest version ensures bug fixes and security vulnerability fixes.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When updating, there is intermittent downtown of your mirror registry, as it is restarted during the update process.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>You have installed the <em>mirror registry for Red Hat OpenShift</em> on a local host.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>To upgrade the the <em>mirror registry for Red Hat OpenShift</em> from localhost, enter the following command:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> ./mirror-registry upgrade <span class="nt">-v</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Users who upgrade the <em>mirror registry for Red Hat OpenShift</em> with the <code>./mirror-registry upgrade</code> flag must include the same credentials used when creating their mirror registry. For example, if you installed the <em>mirror registry for Red Hat OpenShift</em> with <code>--quayHostname &lt;host_example_com&gt;</code> and <code>--quayRoot &lt;example_directory_name&gt;</code>, you must include that string to properly upgrade the mirror registry.</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="mirror-registry-remote_installing-mirroring-creating-registry"><a class="anchor" href="#mirror-registry-remote_installing-mirroring-creating-registry"></a>Mirroring on a remote host with mirror registry for Red Hat OpenShift</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -32045,15 +32182,41 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="upgrading-mirror-registry_installing-mirroring-creating-registry"><a class="anchor" href="#upgrading-mirror-registry_installing-mirroring-creating-registry"></a>Upgrading the mirror registry for Red Hat OpenShift</h2>
+<h2 id="mirror-registry-remote-host-update_installing-mirroring-creating-registry"><a class="anchor" href="#mirror-registry-remote-host-update_installing-mirroring-creating-registry"></a>Updating mirror registry for Red Hat OpenShift from a remote host</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This procedure explains how to update the <em>mirror registry for Red Hat OpenShift</em> from a remote host using the <code>upgrade</code> command. Updating to the latest version ensures bug fixes and security vulnerability fixes.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When updating, there is intermittent downtown of your mirror registry, as it is restarted during the update process.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="ulist">
+<div class="title">Prerequisites</div>
 <ul>
 <li>
-<p>You can upgrade the <em>mirror registry for Red Hat OpenShift</em> from your local host by running the following command:</p>
+<p>You have installed the <em>mirror registry for Red Hat OpenShift</em> on a remote host.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>To upgrade the the <em>mirror registry for Red Hat OpenShift</em> from a remote, enter the following command:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> ./mirror-registry upgrade</code></pre>
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> ./mirror-registry upgrade <span class="nt">-v</span> <span class="nt">--targetHostname</span> &lt;remote_host_url&gt; <span class="nt">--targetUsername</span> &lt;user_name&gt; <span class="nt">-k</span> ~/.ssh/my_ssh_key</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -32225,7 +32388,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://access.redhat.com/errata/RHBA-2022:5884">RHBA-2022:5649 - mirror registry for Red Hat OpenShift 1.2.4</a></p>
+<p><a href="https://access.redhat.com/errata/RHBA-2022:5884">RHBA-2022:5884 - mirror registry for Red Hat OpenShift 1.2.4</a></p>
 </li>
 </ul>
 </div>
