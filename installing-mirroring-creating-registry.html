@@ -13569,7 +13569,7 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
-            <li><a class="" href="../../operators/operator-reference.html">Platform Operators reference</a></li>
+            <li><a class="" href="../../operators/operator-reference.html">Cluster Operators reference</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
       </ul>
@@ -18724,6 +18724,19 @@
 
             <!-- ^ this establishs whether we are reading this current page -->
 
+            <li><a class="" href="../../logging/cluster-logging-loki.html">Logging with the LokiStack</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
             <li><a class="" href="../../logging/viewing-resource-logs.html">Viewing logs for a specific resource</a></li>
             <!--  if active, then highlight it,  otherwise nothing to do -->
 
@@ -18816,15 +18829,15 @@
             <!-- start a new heading area -->
 
             <li class="nav-header">
-              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-22-11">
-                <span id="sgSpan-22-11" class="fa fa-caret-right"></span>
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-22-12">
+                <span id="sgSpan-22-12" class="fa fa-caret-right"></span>
                   &nbsp;Troubleshooting Logging
 
                   <!-- prints out the names of the second level books with arrow down or to right
                   So in this case: Welcome 2 -->
 
               </a>
-              <ul id="topicSubGroup-22-11" class="nav-tertiary list-unstyled collapse">
+              <ul id="topicSubGroup-22-12" class="nav-tertiary list-unstyled collapse">
 
                 <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
                      Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
@@ -29759,54 +29772,6 @@
 
 
                   <li>
-                    <a class="" href="../../virt/node_maintenance/virt-setting-node-maintenance.html">
-                      Setting a node to maintenance mode
-                    </a>
-                  </li>
-
-                
-
-
-                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
-                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
-
-                
-                
-                
-                
-                
-
-                <!-- is this is a single page? That is, does this topic have more topics?
-                 Welcome 2 Index Page and Welcome 2 More -->
-
-
-
-
-                  <li>
-                    <a class="" href="../../virt/node_maintenance/virt-resuming-node.html">
-                      Resuming a node from maintenance mode
-                    </a>
-                  </li>
-
-                
-
-
-                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
-                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
-
-                
-                
-                
-                
-                
-
-                <!-- is this is a single page? That is, does this topic have more topics?
-                 Welcome 2 Index Page and Welcome 2 More -->
-
-
-
-
-                  <li>
                     <a class="" href="../../virt/node_maintenance/virt-automatic-certificates.html">
                       Automatic renewal of TLS certificates
                     </a>
@@ -31847,6 +31812,7 @@
 <li><a href="#mirror-registry-flags_installing-mirroring-creating-registry">Mirror registry for Red Hat OpenShift flags</a></li>
 <li><a href="#mirror-registry-release-notes_installing-mirroring-creating-registry">Mirror registry for Red Hat OpenShift release notes</a>
 <ul class="sectlevel2">
+<li><a href="#mirror-registry-for-openshift-1-2-5">Mirror registry for Red Hat OpenShift 1.2.5</a></li>
 <li><a href="#mirror-registry-for-openshift-1-2-4">Mirror registry for Red Hat OpenShift 1.2.4</a></li>
 <li><a href="#mirror-registry-for-openshift-1-2-3">Mirror registry for Red Hat OpenShift 1.2.3</a></li>
 <li><a href="#mirror-registry-for-openshift-1-2-2">Mirror registry for Red Hat OpenShift 1.2.2</a></li>
@@ -32071,12 +32037,8 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Users who upgrade the <em>mirror registry for Red Hat OpenShift</em> with the <code>./mirror-registry upgrade</code> flag must include the same credentials used when creating their mirror registry. For example, if you installed the <em>mirror registry for Red Hat OpenShift</em> with <code>--quayHostname &lt;host_example_com&gt;</code> and <code>--quayRoot &lt;example_directory_name&gt;</code>, you must include that string to properly upgrade the mirror registry.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Users who upgrade the <em>mirror registry for Red Hat OpenShift</em> with the <code>./mirror-registry upgrade -v</code> flag must include the same credentials used when creating their mirror registry. For example, if you installed the <em>mirror registry for Red Hat OpenShift</em> with <code>--quayHostname &lt;host_example_com&gt;</code> and <code>--quayRoot &lt;example_directory_name&gt;</code>, you must include that string to properly upgrade the mirror registry.</p>
 </div>
 </td>
 </tr>
@@ -32213,7 +32175,7 @@
 <div class="title">Procedure</div>
 <ul>
 <li>
-<p>To upgrade the the <em>mirror registry for Red Hat OpenShift</em> from a remote, enter the following command:</p>
+<p>To upgrade the the <em>mirror registry for Red Hat OpenShift</em> from a remote host, enter the following command:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">sudo</span> ./mirror-registry upgrade <span class="nt">-v</span> <span class="nt">--targetHostname</span> &lt;remote_host_url&gt; <span class="nt">--targetUsername</span> &lt;user_name&gt; <span class="nt">-k</span> ~/.ssh/my_ssh_key</code></pre>
@@ -32226,12 +32188,8 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>Users who upgrade the <em>mirror registry for Red Hat OpenShift</em> with the <code>./mirror-registry upgrade</code> flag must include the same credentials used when creating their mirror registry. For example, if you installed the <em>mirror registry for Red Hat OpenShift</em> with <code>--quayHostname &lt;host_example_com&gt;</code> and <code>--quayRoot &lt;example_directory_name&gt;</code>, you must include that string to properly upgrade the mirror registry.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>Users who upgrade the <em>mirror registry for Red Hat OpenShift</em> with the <code>./mirror-registry upgrade -v</code> flag must include the same credentials used when creating their mirror registry. For example, if you installed the <em>mirror registry for Red Hat OpenShift</em> with <code>--quayHostname &lt;host_example_com&gt;</code> and <code>--quayRoot &lt;example_directory_name&gt;</code>, you must include that string to properly upgrade the mirror registry.</p>
 </div>
 </td>
 </tr>
@@ -32376,6 +32334,22 @@
 </div>
 <div class="paragraph">
 <p>For an overview of the <em>mirror registry for Red Hat OpenShift</em>, see <a href="../../installing/disconnected_install/installing-mirroring-creating-registry.html#mirror-registry-flags_installing-mirroring-creating-registry">Creating a mirror registry with mirror registry for Red Hat OpenShift</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="mirror-registry-for-openshift-1-2-5"><a class="anchor" href="#mirror-registry-for-openshift-1-2-5"></a>Mirror registry for Red Hat OpenShift 1.2.5</h3>
+<div class="paragraph">
+<p><em>Mirror registry for Red Hat OpenShift</em> is now available with Red Hat Quay 3.7.6.</p>
+</div>
+<div class="paragraph">
+<p>The following advisory is available for the <em>mirror registry for Red Hat OpenShift</em>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://access.redhat.com/errata/RHBA-2022:6071">RHBA-2022:6071 - mirror registry for Red Hat OpenShift 1.2.5</a></p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect2">
 <h3 id="mirror-registry-for-openshift-1-2-4"><a class="anchor" href="#mirror-registry-for-openshift-1-2-4"></a>Mirror registry for Red Hat OpenShift 1.2.4</h3>
