@@ -1,0 +1,1961 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="ie8"> <![endif]-->
+<!--[if IE 9]> <html class="ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+  
+  
+  <title>Getting started with the OpenShift CLI - OpenShift CLI (oc) | CLI tools | MicroShift Branch Build</title>
+  <link href="https://assets.openshift.net/content/subdomain.css" rel="stylesheet" type="text/css"/>
+  <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/search.css" rel="stylesheet" media="screen"/>
+  <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/autumn.css" rel="stylesheet"  media="screen"/>
+  <link href="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png"/>
+  <link href="https://assets.openshift.net/content/subdomain/favicon32x32.png" rel="shortcut icon" type="text/css"/>
+  <link href="https://assets.openshift.net/content/osh-nav-footer.css" rel="stylesheet" type="text/css" media="screen"/>
+  <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/docs.css" rel="stylesheet"  media="screen"/>
+  <link href="https://docs.openshift.com/container-platform/4.1/_stylesheets/print.css" rel="stylesheet" type="text/css" media="print"/>
+  <!--[if IE]><link rel="shortcut icon" href="https://assets.openshift.net/content/subdomain/favicon.ico"><![endif]-->
+  <!-- or, set /favicon.ico for IE10 win -->
+  <meta content="OpenShift" name="application-name">
+  <meta content="#000000" name="msapplication-TileColor">
+  <meta content="https://assets.openshift.net/content/subdomain/touch-icon-precomposed.png" name="msapplication-TileImage">
+
+  <!-- Adobe DTM -->
+  <script src="//www.redhat.com/dtm.js" type="text/javascript"></script>
+  <!-- End Adobe DTM -->
+
+  <script id="trustarc" src="https://static.redhat.com/libs/redhat/marketing/latest/trustarc/trustarc.js"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+        rel="stylesheet">
+
+</head>
+
+<body onload="selectVersion('Branch Build');">
+  
+<nav id="main">
+  <div class="container">
+    <div class="row">
+      <div class="navbar navbar-default navbar-openshift" role="navigation">
+        <div class="navbar-header">
+            <a href="#nav-main" class="dropdown-toggle navbar-menu-toggle hidden visible-xs" data-toggle="collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+          <a class="navbar-brand" href="/"></a>
+        </div>
+        <div id="nav-main" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li id="products" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                Products <span class="fa fa-angle-down"></span>
+              </a>
+              <div class="dropdown-menu">
+                <div class="row flex-column flex-md-row">
+                  <div class="col-xs-12 col-sm-3">
+                    <h3>Overview</h3>
+                    <ul class="nav flex-column">
+                      <li><a target="_blank" href="https://www.openshift.com/products/features/">Features</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/products/pricing/">Pricing</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-12 col-sm-9">
+                    <h3>Featured Products</h3>
+                    <ul class="nav">
+                      <li>
+                        <a target="_blank" href="https://www.openshift.com/products/container-platform/">Red Hat OpenShift Container&nbsp;Platform</a>
+                        <p class="d-none d-md-block">Build, deploy and manage your applications across cloud- and on-premise infrastructure</p>
+                      </li>
+                      <li>
+                        <a target="_blank" href="https://www.openshift.com/products/dedicated/">Red Hat OpenShift Dedicated</a>
+                        <p class="d-none d-md-block">Single-tenant, high-availability Kubernetes clusters in the public cloud</p>
+                      </li>
+
+                      <li>
+                        <a target="_blank" href="https://www.openshift.com/products/online/">Red Hat OpenShift Online</a>
+                        <p class="d-none d-md-block">The fastest way for developers to build, host and scale applications in the public cloud</p>
+                      </li>
+
+                      <li class="nav-item">
+                        <a target="_blank" href="https://www.openshift.com/products/">All products <span class="fa fa-angle-right"></span></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li id="learn" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Learn <span class="fa fa-angle-down"></span>
+              </a>
+              <div class="dropdown-menu">
+                <div class="row flex-md-nowrap">
+                  <div class="col-xs-12 col-sm-6">
+                    <h3>Learn</h3>
+                    <ul class="nav">
+                      <li><a target="_blank" href="https://www.openshift.com/learn/what-is-openshift/">What is OpenShift</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/get-started/">Get started</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/partners/">Partners</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/success-stories/">Customer success stories</a></li>
+                      <li><a target="_blank" href="https://blog.openshift.com">Blog</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/resources/">Resources</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <h3>Technology Topics</h3>
+                    <ul class="nav">
+                      <li><a target="_blank" href="https://www.openshift.com/learn/topics/knative/">Knative</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/topics/security/">Security</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/topics/kubernetes/">Kubernetes</a></li>
+                      <li><a target="_blank" href="https://www.openshift.com/learn/topics/service-brokers/">Service Brokers</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Community <span class="fa fa-angle-down"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a target="_blank" href="https://commons.openshift.org">OpenShift Commons</a></li>
+                <li><a target="_blank" href="https://www.okd.io">Open Source (OKD)</a></li>
+                <li><a target="_blank" href="https://www.openshift.com/community/programs/startups/">Startups</a></li>
+                <li><a target="_blank" href="https://www.openshift.com/community/programs/grants/">Grants</a></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Support <span class="fa fa-angle-down"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a target="_blank" href="https://help.openshift.com">Help Center</a></li>
+                <li><a href="https://docs.openshift.com">OpenShift Docs</a></li>
+              </ul>
+            </li>
+
+            <li><a target="_blank" class="nav-sign-up" href="https://www.openshift.com/trial/">Free Trial</a></li>
+
+            <li><a target="_blank" href="https://console.redhat.com/openshift" class="nav-sign-in">Log In <span class="fa fa-angle-right"></span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+  
+  <div class="container">
+    <button id="hc-open-btn" class="open-btn-sm" onclick="openNav()" aria-label="Open"><span class="fa fa-bars" /></button>
+    <ol class="breadcrumb hide-for-print">
+      
+
+      
+
+      
+
+      
+
+      <li class="sitename">
+        <a href="/">
+          Documentation</a>
+      </li>
+      <li class="hidden-xs active">
+        
+          
+              
+                <a href="../../welcome/index.html">MicroShift Branch Build</a>
+              
+        
+        
+      </li>
+      <li class="hidden-xs active">
+        <a href="../../cli_reference/index.html">CLI tools</a>
+      </li>
+      <li class="hidden-xs active"><a href="../../cli_reference/openshift_cli/getting-started-cli.html">OpenShift CLI (oc)</a></li>
+      <li class="hidden-xs active">
+        Getting started with the OpenShift CLI
+      </li>
+      
+      <span text-align="right" style="float: right !important">
+        <a href="https://github.com/openshift/openshift-docs/commits/dedicated-4/cli_reference/openshift_cli/getting-started-cli.adoc"><span class="material-icons-outlined" title="Page history">history</span></a>
+        
+        <a href="https://github.com/openshift/openshift-docs/issues/new?title=[online] Issue in file cli_reference/openshift_cli/getting-started-cli.adoc">
+          <span class="material-icons-outlined" title="Open an issue">bug_report</span>
+        </a>
+        <a href="javascript: void(0);" onclick="window.print()"><span class="material-icons-outlined" title="Print page (Save as PDF)">picture_as_pdf</span></a>
+        
+        
+      </span>
+      
+    </ol>
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div class="col-xs-8 col-sm-3 col-md-3 sidebar sidebar-offcanvas hide-for-print">
+        <div class="row-fluid">
+          <div id="btn-close">
+            <button id="hc-close-btn" onclick="closeNav()" class="close-btn-sm" aria-label="close"><span class="fa fa-times" /></button>
+          </div>
+          <div id="hc-search">
+            <input id="hc-search-input" type="text" aria-label="search">
+            <button id="hc-search-btn" aria-label="search"><span class="fa fa-search" /></button>
+          </div>
+        </div>
+        <ul class="nav nav-sidebar">
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup0">
+        <span id="tgSpan0" class="fa fa-angle-right"></span>
+          About
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup0" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../welcome/index.html">Welcome</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../welcome/legal-notice.html">Legal notice</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup1">
+        <span id="tgSpan1" class="fa fa-angle-right"></span>
+          Getting Started
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup1" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_getting_started/microshift-understanding.html">Understanding MicroShift</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_getting_started/microshift-architecture.html">Architecture</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup2">
+        <span id="tgSpan2" class="fa fa-angle-right"></span>
+          Installing
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup2" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_install/microshift-install-rpm.html">Installing MicroShift from RPM</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_install/microshift-install-rhel-for-edge.html">Installing MicroShift in a RHEL for Edge Image</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup3">
+        <span id="tgSpan3" class="fa fa-angle-right"></span>
+          API reference
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup3" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+            <!-- this topic contains subtopics - Welcome 2 -->
+
+
+            <!-- start a new heading area -->
+
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-0">
+                <span id="sgSpan-3-0" class="fa fa-caret-right"></span>
+                  &nbsp;Network APIs
+
+                  <!-- prints out the names of the second level books with arrow down or to right
+                  So in this case: Welcome 2 -->
+
+              </a>
+              <ul id="topicSubGroup-3-0" class="nav-tertiary list-unstyled collapse">
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../rest_api/network_apis/route-route-openshift-io-v1.html">
+                      Route [route.openshift.io/v1]
+                    </a>
+                  </li>
+
+                
+
+              </ul>
+            </li>
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+            <!-- this topic contains subtopics - Welcome 2 -->
+
+
+            <!-- start a new heading area -->
+
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-3-1">
+                <span id="sgSpan-3-1" class="fa fa-caret-right"></span>
+                  &nbsp;Security APIs
+
+                  <!-- prints out the names of the second level books with arrow down or to right
+                  So in this case: Welcome 2 -->
+
+              </a>
+              <ul id="topicSubGroup-3-1" class="nav-tertiary list-unstyled collapse">
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../rest_api/security_apis/securitycontextconstraints-security-openshift-io-v1.html">
+                      SecurityContextConstraints [security.openshift.io/v1]
+                    </a>
+                  </li>
+
+                
+
+              </ul>
+            </li>
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup4">
+        <span id="tgSpan4" class="fa fa-angle-down"></span>
+          CLI tools
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup4" class="collapse in list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../cli_reference/index.html">CLI tools overview</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+            <!-- this topic contains subtopics - Welcome 2 -->
+
+
+            <!-- start a new heading area -->
+
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-4-1">
+                <span id="sgSpan-4-1" class="fa fa-caret-down"></span>
+                  &nbsp;OpenShift CLI (oc)
+
+                  <!-- prints out the names of the second level books with arrow down or to right
+                  So in this case: Welcome 2 -->
+
+              </a>
+              <ul id="topicSubGroup-4-1" class="nav-tertiary list-unstyled collapse in">
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class=" active" href="../../cli_reference/openshift_cli/getting-started-cli.html">
+                      Getting started with the OpenShift CLI
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../cli_reference/openshift_cli/configuring-cli.html">
+                      Configuring the OpenShift CLI
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../cli_reference/openshift_cli/managing-cli-profiles.html">
+                      Managing CLI profiles
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../cli_reference/openshift_cli/extending-cli-plugins.html">
+                      Extending the OpenShift CLI with plug-ins
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../cli_reference/openshift_cli/developer-cli-commands.html">
+                      OpenShift CLI developer command reference
+                    </a>
+                  </li>
+
+                
+
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../cli_reference/openshift_cli/usage-oc-kubectl.html">
+                      Usage of oc and kubectl commands
+                    </a>
+                  </li>
+
+                
+
+              </ul>
+            </li>
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup5">
+        <span id="tgSpan5" class="fa fa-angle-right"></span>
+          Configuring
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup5" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_configuring/microshift-using-config-tools.html">Configuring MicroShift</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup6">
+        <span id="tgSpan6" class="fa fa-angle-right"></span>
+          Storage
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup6" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_storage/microshift-storage-overview.html">MicroShift storage overview</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_storage/understanding-ephemeral-storage-microshift.html">Understanding ephemeral storage for MicroShift</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_storage/understanding-persistent-storage-microshift.html">Understanding persistent storage for MicroShift</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+            <!-- this topic contains subtopics - Welcome 2 -->
+
+
+            <!-- start a new heading area -->
+
+            <li class="nav-header">
+              <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicSubGroup-6-3">
+                <span id="sgSpan-6-3" class="fa fa-caret-right"></span>
+                  &nbsp;Using container storage interface (CSI) for MicroShift
+
+                  <!-- prints out the names of the second level books with arrow down or to right
+                  So in this case: Welcome 2 -->
+
+              </a>
+              <ul id="topicSubGroup-6-3" class="nav-tertiary list-unstyled collapse">
+
+                <!-- for each topic in this topic_group, in Welcome 2, what topics exist?
+                     Welcome 2 Index Page, Welcome 3 and Welcome 2 More - we list them all.. -->
+
+                
+                
+                
+                
+                
+
+                <!-- is this is a single page? That is, does this topic have more topics?
+                 Welcome 2 Index Page and Welcome 2 More -->
+
+
+
+
+                  <li>
+                    <a class="" href="../../microshift_storage/container_storage_interface/persistent-storage-csi.html">
+                      Configuring CSI volumes for MicroShift
+                    </a>
+                  </li>
+
+                
+
+              </ul>
+            </li>
+      </ul>
+    </li>
+
+<!--  the top level  groupings start here -->
+
+
+
+
+
+<!-- group_id is the one that is user selected. topic_group[id] is what we are parsing via navigation -->
+
+    <li class="nav-header">
+
+
+
+
+
+
+      <a class="" href="javascript:void(0);" data-toggle="collapse" data-target="#topicGroup7">
+        <span id="tgSpan7" class="fa fa-angle-right"></span>
+          Troubleshooting
+          <!-- prints out the names of the top level books with arrow down or to right
+               So in this case: Welcome 1 and Another Book -->
+      </a>
+
+
+      <!-- this then goes through all the topics within the top level groups
+      depending on whether it itself contains further topics or is a single file -->
+
+      <ul id="topicGroup7" class="collapse  list-unstyled">
+
+
+        <!-- for each topic in this topic_group, for example in Welcome 1, what topics exist?
+        Welcome 2 and Welcome 1 More -->
+
+
+          <!-- is this is a single page? That is, does this topic have more topics?
+          Welcome 1 More -->
+
+            <!-- ^ this establishs whether we are reading this current page -->
+
+            <li><a class="" href="../../microshift_support/microshift-troubleshooting.html">MicroShift Troubleshooting</a></li>
+            <!--  if active, then highlight it,  otherwise nothing to do -->
+
+      </ul>
+    </li>
+</ul>
+      </div>
+      <div id="hc-search-modal">
+        <div id="hc-modal-content">
+          <span id="hc-modal-close">&times;</span>
+          <div id="hc-search-results-wrapper">
+            <div id="hc-search-results"></div>
+            <div id="hc-search-progress-indicator" class="text-center search-progress-indicator"><i class="fa fa-circle-o-notch fa-spin" style="font-size:42px"></i></div>
+            <div class="text-center">
+              <button id="hc-search-more-btn">Show more results</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="print-logo" style="display:none;">
+        <img src="https://www.redhat.com/cms/managed-files/Logo-Red_Hat-OpenShift-A-Standard-RGB_0_0.svg" alt="print logo"/>
+      </div>
+      <div class="col-xs-12 col-sm-9 col-md-9 main">
+        <div class="page-header">
+          <h1>
+            Getting started with the OpenShift CLI
+          </h1>
+        </div>
+        
+        
+        <div id="preamble">
+<div class="sectionbody">
+<div id="toc" class="toc">
+<div id="toctitle" class="title"></div>
+<ul class="sectlevel1">
+<li><a href="#cli-about-cli_cli-developer-commands">About the OpenShift CLI</a></li>
+<li><a href="#installing-openshift-cli">Installing the OpenShift CLI</a>
+<ul class="sectlevel2">
+<li><a href="#cli-installing-cli_cli-developer-commands">Installing the OpenShift CLI by downloading the binary</a></li>
+<li><a href="#cli-installing-cli-rpm_cli-developer-commands">Installing the OpenShift CLI by using an RPM</a></li>
+<li><a href="#cli-installing-cli-brew_cli-developer-commands">Installing the OpenShift CLI by using Homebrew</a></li>
+</ul>
+</li>
+<li><a href="#cli-logging-in_cli-developer-commands">Logging in to the OpenShift CLI</a></li>
+<li><a href="#cli-using-cli_cli-developer-commands">Using the OpenShift CLI</a>
+<ul class="sectlevel2">
+<li><a href="#viewing-pods">Viewing pods</a></li>
+<li><a href="#viewing-pod-logs">Viewing pod logs</a></li>
+<li><a href="#listing-supported-api-resources">Listing supported API resources</a></li>
+</ul>
+</li>
+<li><a href="#cli-getting-help_cli-developer-commands">Getting help</a></li>
+<li><a href="#cli-logging-out_cli-developer-commands">Logging out of the OpenShift CLI</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cli-about-cli_cli-developer-commands"><a class="anchor" href="#cli-about-cli_cli-developer-commands"></a>About the OpenShift CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With the OpenShift command-line interface (CLI), the <code>oc</code> command, you can create applications and manage MicroShift projects from a terminal. The OpenShift CLI is ideal in the following situations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Working directly with project source code</p>
+</li>
+<li>
+<p>Scripting MicroShift operations</p>
+</li>
+<li>
+<p>Managing projects while restricted by bandwidth resources</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="installing-openshift-cli"><a class="anchor" href="#installing-openshift-cli"></a>Installing the OpenShift CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can install the OpenShift CLI (<code>oc</code>) either by downloading the binary or by using an RPM.</p>
+</div>
+<div class="sect2">
+<h3 id="cli-installing-cli_cli-developer-commands"><a class="anchor" href="#cli-installing-cli_cli-developer-commands"></a>Installing the OpenShift CLI by downloading the binary</h3>
+<div class="paragraph">
+<p>You can install the OpenShift CLI (<code>oc</code>) to interact with MicroShift from a
+command-line interface. You can install <code>oc</code> on Linux, Windows, or macOS.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you installed an earlier version of <code>oc</code>, you cannot use it to complete all
+of the commands in MicroShift Branch Build. Download and
+install the new version of <code>oc</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<h4 id="installing-the-openshift-cli-on-linux" class="discrete">Installing the OpenShift CLI on Linux</h4>
+<div class="paragraph">
+<p>You can install the OpenShift CLI (<code>oc</code>) binary on Linux by using the following procedure.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Navigate to the <a href="https://access.redhat.com/downloads/content/290">MicroShift downloads page</a> on the Red Hat Customer Portal.</p>
+</li>
+<li>
+<p>Select the architecture in the <strong>Product Variant</strong> drop-down menu.</p>
+</li>
+<li>
+<p>Select the appropriate version in the <strong>Version</strong> drop-down menu.</p>
+</li>
+<li>
+<p>Click <strong>Download Now</strong> next to the <strong>OpenShift vBranch Build Linux Client</strong> entry and save the file.</p>
+</li>
+<li>
+<p>Unpack the archive:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">tar </span>xvzf &lt;file&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Place the <code>oc</code> binary in a directory that is on your <code>PATH</code>.</p>
+<div class="paragraph">
+<p>To check your <code>PATH</code>, execute the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$PATH</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After you install the OpenShift CLI, it is available using the <code>oc</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc &lt;<span class="nb">command</span><span class="o">&gt;</span></code></pre>
+</div>
+</div>
+<h4 id="installing-the-openshift-cli-on-windows" class="discrete">Installing the OpenShift CLI on Windows</h4>
+<div class="paragraph">
+<p>You can install the OpenShift CLI (<code>oc</code>) binary on Windows by using the following procedure.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Navigate to the <a href="https://access.redhat.com/downloads/content/290">MicroShift downloads page</a> on the Red Hat Customer Portal.</p>
+</li>
+<li>
+<p>Select the appropriate version in the <strong>Version</strong> drop-down menu.</p>
+</li>
+<li>
+<p>Click <strong>Download Now</strong> next to the <strong>OpenShift vBranch Build Windows Client</strong> entry and save the file.</p>
+</li>
+<li>
+<p>Unzip the archive with a ZIP program.</p>
+</li>
+<li>
+<p>Move the <code>oc</code> binary to a directory that is on your <code>PATH</code>.</p>
+<div class="paragraph">
+<p>To check your <code>PATH</code>, open the command prompt and execute the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">C:\&gt;</span><span class="w"> </span>path</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After you install the OpenShift CLI, it is available using the <code>oc</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">C:\&gt;</span><span class="w"> </span>oc &lt;<span class="nb">command</span><span class="o">&gt;</span></code></pre>
+</div>
+</div>
+<h4 id="installing-the-openshift-cli-on-macos" class="discrete">Installing the OpenShift CLI on macOS</h4>
+<div class="paragraph">
+<p>You can install the OpenShift CLI (<code>oc</code>) binary on macOS by using the following procedure.</p>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Navigate to the <a href="https://access.redhat.com/downloads/content/290">MicroShift downloads page</a> on the Red Hat Customer Portal.</p>
+</li>
+<li>
+<p>Select the appropriate version in the <strong>Version</strong> drop-down menu.</p>
+</li>
+<li>
+<p>Click <strong>Download Now</strong> next to the <strong>OpenShift vBranch Build MacOSX Client</strong> entry and save the file.</p>
+</li>
+<li>
+<p>Unpack and unzip the archive.</p>
+</li>
+<li>
+<p>Move the <code>oc</code> binary to a directory on your PATH.</p>
+<div class="paragraph">
+<p>To check your <code>PATH</code>, open a terminal and execute the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span><span class="nb">echo</span> <span class="nv">$PATH</span></code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After you install the OpenShift CLI, it is available using the <code>oc</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc &lt;<span class="nb">command</span><span class="o">&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cli-installing-cli-rpm_cli-developer-commands"><a class="anchor" href="#cli-installing-cli-rpm_cli-developer-commands"></a>Installing the OpenShift CLI by using an RPM</h3>
+<div class="paragraph">
+<p>For Red Hat Enterprise Linux (RHEL), you can install the OpenShift CLI (<code>oc</code>) as an RPM if you have an active MicroShift subscription on your Red Hat account.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>Must have root or sudo privileges.</p>
+</li>
+</ul>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Register with Red Hat Subscription Manager:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>subscription-manager register</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Pull the latest subscription data:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>subscription-manager refresh</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>List the available subscriptions:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>subscription-manager list <span class="nt">--available</span> <span class="nt">--matches</span> <span class="s1">'*OpenShift*'</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In the output for the previous command, find the pool ID for an MicroShift subscription and attach the subscription to the registered system:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>subscription-manager attach <span class="nt">--pool</span><span class="o">=</span>&lt;pool_id&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Enable the repositories required by MicroShift Branch Build.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>subscription-manager repos <span class="nt">--enable</span><span class="o">=</span><span class="s2">"rhocp-4.11-for-rhel-8-x86_64-rpms"</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>It is not supported to install the OpenShift CLI (<code>oc</code>) as an RPM for Red Hat Enterprise Linux (RHEL) 9. You must install the OpenShift CLI for RHEL 9 by downloading the binary.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Install the <code>openshift-clients</code> package:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">#</span><span class="w"> </span>yum <span class="nb">install </span>openshift-clients</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>After you install the CLI, it is available using the <code>oc</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc &lt;<span class="nb">command</span><span class="o">&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="cli-installing-cli-brew_cli-developer-commands"><a class="anchor" href="#cli-installing-cli-brew_cli-developer-commands"></a>Installing the OpenShift CLI by using Homebrew</h3>
+<div class="paragraph">
+<p>For macOS, you can install the OpenShift CLI (<code>oc</code>) by using the <a href="https://brew.sh">Homebrew</a> package manager.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>You must have Homebrew (<code>brew</code>) installed.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Procedure</div>
+<ul>
+<li>
+<p>Run the following command to install the <a href="https://formulae.brew.sh/formula/openshift-cli">openshift-cli</a> package:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>brew <span class="nb">install </span>openshift-cli</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cli-logging-in_cli-developer-commands"><a class="anchor" href="#cli-logging-in_cli-developer-commands"></a>Logging in to the OpenShift CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can log in to the OpenShift CLI (<code>oc</code>) to access and manage your cluster.</p>
+</div>
+<div class="ulist">
+<div class="title">Prerequisites</div>
+<ul>
+<li>
+<p>You must have access to an MicroShift cluster.</p>
+</li>
+<li>
+<p>You must have installed the OpenShift CLI (<code>oc</code>).</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To access a cluster that is accessible only over an HTTP proxy server, you can set the <code>HTTP_PROXY</code>, <code>HTTPS_PROXY</code> and <code>NO_PROXY</code> variables.
+These environment variables are respected by the <code>oc</code> CLI so that all communication with the cluster goes through the HTTP proxy.</p>
+</div>
+<div class="paragraph">
+<p>Authentication headers are sent only when using HTTPS transport.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<div class="title">Procedure</div>
+<ol class="arabic">
+<li>
+<p>Enter the <code>oc login</code> command and pass in a user name:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc login <span class="nt">-u</span> user1</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>When prompted, enter the required information:</p>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">Server [https://localhost:8443]: https://openshift.example.com:6443 <i class="conum" data-value="1"></i><b>(1)</b>
+The server uses a certificate signed by an unknown authority.
+You can bypass the certificate check, but any data you send to the server could be intercepted by others.
+Use insecure connections? (y/n): y <i class="conum" data-value="2"></i><b>(2)</b>
+
+Authentication required for https://openshift.example.com:6443 (openshift)
+Username: user1
+Password: <i class="conum" data-value="3"></i><b>(3)</b>
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+</span><span class="gp">    oc new-project &lt;projectname&gt;</span><span class="w">
+</span><span class="go">
+Welcome! See 'oc help' to get started.</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enter the MicroShift server URL.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Enter whether to use insecure connections.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enter the user&#8217;s password.</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are logged in to the web console, you can generate an <code>oc login</code> command that includes your token and server information. You can use the command to log in to the MicroShift CLI without the interactive prompts. To generate the command, select <strong>Copy login command</strong> from the username drop-down menu at the top right of the web console.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can now create a project or issue other commands for managing your cluster.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cli-using-cli_cli-developer-commands"><a class="anchor" href="#cli-using-cli_cli-developer-commands"></a>Using the OpenShift CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Review the following sections to learn how to complete common tasks using the CLI.</p>
+</div>
+<div class="sect2">
+<h3 id="viewing-pods"><a class="anchor" href="#viewing-pods"></a>Viewing pods</h3>
+<div class="paragraph">
+<p>Use the <code>oc get pods</code> command to view the pods for the current project.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When you run <code>oc</code> inside a pod and do not specify a namespace, the namespace of the pod is used by default.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc get pods <span class="nt">-o</span> wide</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">NAME                  READY   STATUS      RESTARTS   AGE     IP            NODE                           NOMINATED NODE
+</span><span class="gp">cakephp-ex-1-build    0/1     Completed   0          5m45s   10.131.0.10   ip-10-0-141-74.ec2.internal    &lt;none&gt;</span><span class="w">
+</span><span class="gp">cakephp-ex-1-deploy   0/1     Completed   0          3m44s   10.129.2.9    ip-10-0-147-65.ec2.internal    &lt;none&gt;</span><span class="w">
+</span><span class="gp">cakephp-ex-1-ktz97    1/1     Running     0          3m33s   10.128.2.11   ip-10-0-168-105.ec2.internal   &lt;none&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="viewing-pod-logs"><a class="anchor" href="#viewing-pod-logs"></a>Viewing pod logs</h3>
+<div class="paragraph">
+<p>Use the <code>oc logs</code> command to view logs for a particular pod.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc logs cakephp-ex-1-deploy</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">--&gt;</span><span class="w"> </span>Scaling cakephp-ex-1 to 1
+<span class="gp">--&gt;</span><span class="w"> </span>Success</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listing-supported-api-resources"><a class="anchor" href="#listing-supported-api-resources"></a>Listing supported API resources</h3>
+<div class="paragraph">
+<p>Use the <code>oc api-resources</code> command to view the list of supported API resources
+on the server.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc api-resources</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">NAME                                  SHORTNAMES       APIGROUP                              NAMESPACED   KIND
+bindings                                                                                     true         Binding
+componentstatuses                     cs                                                     false        ComponentStatus
+configmaps                            cm                                                     true         ConfigMap
+</span><span class="c">...</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cli-getting-help_cli-developer-commands"><a class="anchor" href="#cli-getting-help_cli-developer-commands"></a>Getting help</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can get help with CLI commands and MicroShift resources in the
+following ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use <code>oc help</code> to get a list and description of all available CLI commands:</p>
+<div class="listingblock">
+<div class="title">Example: Get general help for the CLI</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc <span class="nb">help</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">OpenShift Client
+
+This client helps you develop, build, deploy, and run your applications on any OpenShift or Kubernetes compatible
+platform. It also includes the administrative commands for managing a cluster under the 'adm' subcommand.
+
+Usage:
+  oc [flags]
+
+Basic Commands:
+  login           Log in to a server
+  new-project     Request a new project
+  new-app         Create a new application
+
+</span><span class="c">...</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use the <code>--help</code> flag to get help about a specific CLI command:</p>
+<div class="listingblock">
+<div class="title">Example: Get help for the <code>oc create</code> command</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc create <span class="nt">--help</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">Create a resource by filename or stdin
+
+JSON and YAML formats are accepted.
+
+Usage:
+  oc create -f FILENAME [flags]
+
+</span><span class="c">...</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use the <code>oc explain</code> command to view the description and fields for a
+particular resource:</p>
+<div class="listingblock">
+<div class="title">Example: View documentation for the <code>Pod</code> resource</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc explain pods</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">KIND:     Pod
+VERSION:  v1
+
+DESCRIPTION:
+     Pod is a collection of containers that can run on a host. This resource is
+     created by clients and scheduled onto hosts.
+
+FIELDS:
+</span><span class="gp">   apiVersion	&lt;string&gt;</span><span class="w">
+</span><span class="go">     APIVersion defines the versioned schema of this representation of an
+     object. Servers should convert recognized schemas to the latest internal
+     value, and may reject unrecognized values. More info:
+</span><span class="gp">     https://git.k8s.io/community/contributors/devel/api-conventions.md#</span>resources
+<span class="go">
+</span><span class="c">...</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cli-logging-out_cli-developer-commands"><a class="anchor" href="#cli-logging-out_cli-developer-commands"></a>Logging out of the OpenShift CLI</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can log out the OpenShift CLI to end your current session.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>oc logout</code> command.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="gp">$</span><span class="w"> </span>oc <span class="nb">logout</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Example output</div>
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="terminal"><span class="go">Logged "user1" out on "https://openshift.example.com"</span></code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This deletes the saved authentication token from the server and removes it from
+your configuration file.</p>
+</div>
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <script src="https://assets.openshift.net/content/modernizr.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/subdomain.js" type="text/javascript"></script>
+  <script src="https://assets.openshift.net/content/nav-tertiary.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/bootstrap-offcanvas.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/reformat-html.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/hc-search.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/page-loader.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/clipboard.js" type="text/javascript"></script>
+  <script src="https://docs.openshift.com/container-platform/4.1/_javascripts/collapsible.js" type="text/javascript"></script>
+  <script>
+  var dk = 'microshift';
+  var version = 'Branch Build';
+
+  var distros = {
+    'openshift-origin': ['docs_origin', version],
+    // specific labels are used for OSD instead of the URL filter, due to its unusual URL structure; assume v4
+    'openshift-dedicated': ['docs_dedicated_v4'],
+    'openshift-online': ['docs_online', version],
+    'openshift-enterprise': ['docs_cp', version],
+    'openshift-aro' : ['docs_aro', version],
+    'openshift-rosa' : ['docs_rosa'],
+    'openshift-acs' : ['docs_acs', version]
+  };
+
+  // only OSD v3 docs have the version variable specified
+  if (dk == "openshift-dedicated" && version == "3") {
+    distros['openshift-dedicated'] = ['docs_dedicated_v3']
+  }
+
+  distros[dk] ? hcSearchCategory.apply(null, distros[dk]) : hcSearchCategory("docs");
+  </script>
+  <script type="text/javascript">
+  /*<![CDATA[*/
+  $(document).ready(function() {
+    $("[id^='topicGroup']").on('show.bs.collapse', function(event) {
+      if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+        $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+      }
+    });
+    $("[id^='topicGroup']").on('hide.bs.collapse', function(event) {
+      if (!($(event.target).attr('id').match(/^topicSubGroup/))) {
+        $(this).parent().find("[id^='tgSpan']").toggleClass("fa-angle-right fa-angle-down");
+      }
+    });
+    $("[id^='topicSubGroup']").on('show.bs.collapse', function() {
+      $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+    });
+    $("[id^='topicSubGroup']").on('hide.bs.collapse', function() {
+      $(this).parent().find("[id^='sgSpan']").toggleClass("fa-caret-right fa-caret-down");
+    });
+    $("[id^='topicSubSubGroup']").on('show.bs.collapse', function() {
+      $(this).parent().find("[id^='ssgSpan']").toggleClass("fa-caret-right fa-caret-down");
+    });
+    $("[id^='topicSubSubGroup']").on('hide.bs.collapse', function() {
+      $(this).parent().find("[id^='ssgSpan']").toggleClass("fa-caret-right fa-caret-down");
+    });
+
+    const collapsibleContent = document.getElementsByTagName("details");
+    for (var i = 0; i < collapsibleContent.length; i++) {
+      collapsibleContent[i].setAttribute("open", "");
+    }
+
+  });
+  /*]]>*/
+  </script>
+
+  <footer id="rh">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-2">
+                <img src="https://assets.openshift.com/hubfs/images/logos/Logo-RedHat-A-Reverse-RGB.svg" class="img-fluid" alt="Red Hat" style="height: 30px;">
+            </div>
+
+            <div class="col-sm-3">
+                <p class="text-nowrap">Copyright © 2022 Red Hat, Inc.</p>
+            </div>
+
+
+
+            <div class="col">
+                <nav class="nav">
+                    <a target="_blank" href="https://www.redhat.com/en/about/privacy-policy" class="nav-link">Privacy statement</a>
+                    <a target="_blank" href="https://www.openshift.com/legal/terms/" class="nav-link">Terms of use</a>
+                    <a target="_blank" href="https://www.redhat.com/en/about/all-policies-guidelines" class="nav-link">All policies and guidelines</a>
+                    <a id="teconsent"></a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="consent_blackbar" style="z-index: 100; position: fixed"></div>
+
+
+
+<!-- Adobe DTM -->
+<script type="text/javascript">
+if (("undefined" !== typeof _satellite) && ("function" === typeof _satellite.pageBottom)) {
+   _satellite.pageBottom();
+}
+</script>
+<!-- End Adobe DTM -->
+
+  <!-- adjust page css based on breadcrumb and/or resize -->
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+      if ($(window).width() >= 1008) {
+        adjustSide();
+        adjustToc();
+        adjustMain();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if ($(window).width() >= 1008) {
+        adjustSide();
+        adjustToc();
+        adjustMain();
+      } else if ($(window).width() < 1008) {
+        sidebar.classList.remove('wide');
+        document.querySelector('#hc-search').classList.remove('wide');
+        if (sidebar.classList.contains('open')) {
+          sidebar.style.display = 'block';
+        } else {
+          sidebar.style.display = 'none';
+        }
+        document.querySelector('.main').style.paddingTop = '0px';
+      }
+    });
+
+    function adjustSide() {
+      sidebar.classList.add('wide');
+      document.querySelector('#hc-search').classList.add('wide');
+      sidebar.style.display = 'block';
+      document.querySelector('.sidebar').style.top = parseInt((document.querySelector('.breadcrumb').offsetHeight + 125), 10) + "px";
+      document.querySelector('#hc-search').style.top = parseInt((document.querySelector('.breadcrumb').offsetHeight + 95), 10) + "px";
+    }
+
+    function adjustToc() {
+      if (document.querySelector('#toc') !== null) {
+        document.querySelector('#toc').style.top = parseInt((document.querySelector('.breadcrumb').offsetHeight + 90), 10) + "px";
+      }
+    }
+
+    function adjustMain() {
+      document.querySelector('html').style.scrollPaddingTop = parseInt((document.querySelector('.breadcrumb').offsetHeight + 90), 10) + "px";
+      document.querySelector('.main').style.paddingTop = parseInt((document.querySelector('.breadcrumb').offsetHeight - 70), 10) + "px";
+    }
+
+  </script>
+
+  <!-- remove toc active class when page is loaded -->
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+      var tocItems = $("#toc a");
+
+      for (let i = 0; i < tocItems.length; i++) {
+        tocItems[i].classList.remove("toc-active");
+      }
+    })
+  </script>
+
+  <!-- maintain sidebar scroll position between page loads -->
+  <script type="text/javascript">
+    let sidebar = document.querySelector(".sidebar");
+    let scrolltop = localStorage.getItem("sidebar-scroll");
+
+    if (scrolltop == null) {
+      sidebar.scrollTop = parseInt(top, 10);
+    }
+
+    window.addEventListener("beforeunload", () => {
+      localStorage.setItem("sidebar-scroll", sidebar.scrollTop);
+    });
+
+    window.addEventListener('load', () => {
+      sidebar.scrollTo(0, scrolltop)
+    })
+  </script>
+
+  <!-- open/close the nav -->
+  <script type="text/javascript">
+    function closeNav() {
+      let sidebar = document.querySelector(".sidebar");
+      sidebar.style.display = "none";
+      sidebar.classList.remove('open');
+    }
+
+    function openNav() {
+      let sidebar = document.querySelector(".sidebar");
+      let hc_search = document.querySelector('#hc-search');
+      sidebar.style.display = "block";
+      sidebar.style.top = "0px";
+      hc_search.style.top = 'unset';
+      sidebar.classList.add('open');
+    }
+  </script>
+
+  <!-- clear and add toc-active to clicked toc link -->
+  <script type="text/javascript">
+  $("#toc a").click(function() {
+    var tocItems = $("#toc a");
+    for (let i = 0; i < tocItems.length; i++) {
+      tocItems[i].classList.remove("toc-active");
+    }
+    this.classList.add("toc-active");
+  });
+  </script>
+
+  <!-- update active toc class when mouse scrolls -->
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener("wheel", () => {
+
+        const ioConfiguration = {
+          "rootMargin": "-120px 0px -400px 0px",
+          "threshold": 0
+        };
+
+        const observer = new IntersectionObserver(setCurrent, ioConfiguration, entries => {
+          entries.forEach(entry => {
+            var id = entry.target.getAttribute('id');
+            //fight with js
+            document.querySelector(`#toc li a[href="#${id}"]`).classList.remove('toc-active');
+          });
+        });
+
+        //track all h1-4 headings that have an id
+        document.querySelectorAll('.main h2[id], .main h3[id]').forEach((h) => {
+          observer.observe(h);
+        });
+
+        //runs when the IntersectionObserver fires
+        function setCurrent(e) {
+          var allTocLinks = document.querySelectorAll("#toc li a");
+          if (allTocLinks !== undefined) {
+            e.map(i => {
+              if (i.isIntersecting && i.intersectionRatio >= 1) {
+                allTocLinks.forEach(link => link.classList.remove("toc-active"));
+                document.querySelector(`#toc li a[href="#${i.target.id}"]`).classList.add('toc-active')
+              }
+            })
+          }
+        };
+
+        //make clicked toc item active and stop IntersectionObserver
+        $("#toc a").click(function() {
+          //stop tracking all h1-4 headings that have an id
+          document.querySelectorAll('.main h2[id], .main h3[id]').forEach((h) => {
+            observer.unobserve(h);
+          });
+          var tocItems = $("#toc a");
+          if (tocItems !== undefined) {
+            for (let i = 0; i < tocItems.length; i++) {
+              tocItems[i].classList.remove("toc-active");
+            };
+            this.classList.add("toc-active");
+          }
+        })
+      })
+    })
+  </script>
+
+  <!--handle page scroll top and bottom, add toc-active -->
+  <script type="text/javascript">
+    document.addEventListener('scroll', () => {
+      //scroll to bottom
+      if(document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
+        var tocItems = $("#toc a");
+        for (let i = 0; i < tocItems.length; i++) {
+          tocItems[i].classList.remove("toc-active")
+          };
+          tocItems[tocItems.length - 1].classList.add("toc-active");
+        };
+      //scroll to top
+      if(window.pageYOffset === 0) {
+        var tocItems = $("#toc a");
+        for (let i = 0; i < tocItems.length; i++) {
+          tocItems[i].classList.remove("toc-active");
+          };
+          tocItems[0].classList.add("toc-active");
+        };
+      })
+  </script>
+
+  <!--adjust sidebar and toc when footer is displayed -->
+  <script type="text/javascript">
+    sidebar = document.querySelector('.sidebar')
+    toc = document.querySelector('#toc')
+    main = document.querySelector('.main')
+    okd_footer = document.querySelector('.footer-origin-docs')
+
+    //handle short pages
+    if (window.innerHeight === document.documentElement.scrollHeight) {
+      //sidebar
+      if (sidebar !== null && okd_footer == null) {
+        sidebar.style.marginBottom = "38px";
+        main.style.marginBottom = "35px";
+      };
+      //okd sidebar
+      if(sidebar !== null && okd_footer !== null) {
+        sidebar.style.marginBottom = "176px";
+        main.style.marginBottom = "135px";
+      }
+    };
+
+    //handle scrolling pages
+    document.addEventListener('scroll', () => {
+      //scroll to bottom
+      if ($(window).width() >= 1008) {
+        if(sidebar !== null) {
+          //pages with multiple toc entries
+          if(document.documentElement.scrollHeight === window.pageYOffset + window.innerHeight) {
+              //sidebar
+              if (sidebar !== null && okd_footer == null){
+                sidebar.style.marginBottom = "38px";
+                main.style.marginBottom = "35px";
+              };
+              //toc
+              if (toc !== null && okd_footer == null){
+                toc.style.bottom = "35px";
+              };
+              //okd sidebar
+              if(sidebar !== null && okd_footer !== null) {
+                sidebar.style.marginBottom = "176px";
+                main.style.marginBottom = "135px";
+              };
+              //okd toc
+              if (toc !== null && okd_footer !== null){
+                toc.style.bottom = "175px";
+              };
+            };
+          if(document.documentElement.scrollHeight != window.pageYOffset + window.innerHeight) {
+            sidebar.style.marginBottom = "0px";
+            if (toc !== null) {
+              toc.style.bottom = "0px";
+            }
+          }
+        }
+      }
+    })
+  </script>
+
+  <!-- adjust alerts on mobile -->
+  <script type="text/javascript">
+    alert = document.querySelector('#support-alert')
+    window.addEventListener("wheel", () => {
+      if ($(window).width() < 1008) {
+        //adjust alert
+        if(window.pageYOffset > 0) {
+          if(alert !== null) {
+            document.querySelector('#support-alert').style.position = "fixed";
+            document.querySelector('#support-alert').style.bottom = "0px";
+            document.querySelector('#support-alert').style.margin = "5px";
+            document.querySelector('#support-alert').style.zIndex = "9999999";
+          }
+        }
+      }
+   });
+    window.addEventListener('resize', () => {
+      if ($(window).width() >= 1008) {
+        if(alert !== null) {
+          document.querySelector('#support-alert').style.removeProperty('position');
+          document.querySelector('#support-alert').style.removeProperty('bottom');
+          document.querySelector('#support-alert').style.removeProperty('margin');
+          document.querySelector('#support-alert').style.removeProperty('zIndex');
+        }
+      }
+    })
+  </script>
+
+</body>
+</html>
