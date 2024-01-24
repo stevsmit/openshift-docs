@@ -1,0 +1,79 @@
+// Module included in the following assemblies:
+//
+// * networking/ovn-k-network-policy.adoc
+
+:_mod-docs-content-type: Concept
+[id="AdminNetworkPolicy"_{context}"]
+= AdminNetworkPolicy
+
+`AdminNetworkPolicy` (ANP) is a cluster-scoped custom resource definition (CRD). As a {product-title} administrator, you can use ANP to secure your cluster's networking in the following ways:
+
+* You can create cluster-scoped policies that are enforced before namespaces are created.
+
+* You can create deny and allow traffic rules at a cluster level that are non-overridable by users in the cluster.
+
+The key difference between `AdminNetworkPolicy` and `NetworkPolicy` is that ANP provides cluster scoped policy for administrators while `NetworkPolicy` provides namespaced scoped policy for developers.
+
+An ANP allows administrators to specify:
+
+* A `subject` that consists of a set of pods that is selected by the policy
+
+* A list of ingress rules to be applied for all ingress traffic towards the `subject`.
+
+* A list of egress rules to be applied for all egress traffic from the `subject`.
+
+* A `priority` value that determines the order of its evaluation.
+
+[NOTE]
+====
+`AdminNetworkPolicy` is a `TechnologyPreviewNoUpgrade` feature that can be enabled on test clusters that are not in production. The feature is behind the flag `enable-admin-network-policy`. See "Enabling features using feature gates" in the Additional resources of this section for more information on feature gates and `TechnologyPreviewNoUpgrade` features.
+====
+[discrete]
+[id="AdminNetworkPolicy-example"]
+== AdminNetworkPolicy example
+
+.Example YAML file for ANP
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: AdminNetworkPolicy
+metadata:
+  name: Deny_ig_Pass_eg_example <1>
+spec:
+  priority: 50 <2>
+  subject:
+    namespaces:
+      matchLabels:
+          kubernetes.io/metadata.name: gryffindor
+  ingress:<3>
+  - name: "deny-all-ingress-from-slytherin"
+    action: "Deny"
+    from:
+    - pods:
+        namespaces:
+          namespaceSelector:
+            matchLabels:
+              conformance-house: slytherin
+        podSelector:
+          matchLabels:
+            conformance-house: slytherin
+  egress:<3>
+  - name: "pass-all-egress-to-slytherin"
+    action: "Pass" <4>
+    to:
+    - pods:
+        namespaces:
+          namespaceSelector:
+            matchLabels:
+              conformance-house: slytherin
+        podSelector:
+          matchLabels:
+            conformance-house: slytherin
+----
+<1> Policy name
+<2> `spec.priority` supports a maximum of 100 ANP in the values of 0-99 in a cluster. The lower the value the higher precedence. Creating `AdminNetworkPolicy` with the same priority creates a nondeterministic outcome.
+<3> ANP have both ingress and egress rules.
+<4> ANP rules for ingress and egress `action` accepts values of `Pass`, `Deny`, and `Allow`.
+====

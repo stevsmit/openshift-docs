@@ -1,0 +1,141 @@
+// Module included in the following assemblies:
+//
+// * networking/ovn-k-network-policy.adoc
+
+:_mod-docs-content-type: Concept
+[id="BaselineAdminNetworkPolicy"_{context}"]
+= BaselineAdminNetworkPolicy
+
+`BaselineAdminNetworkPolicy` (BANP) is a cluster-scoped custom resource definitions (CRDs). As a {product-title} administrator, you can use BANP to setup and enforce optional baseline network policies that are overridable by users using `NetworkPolicies` if need be. Rule actions for BANP are `allow` or `deny`.
+
+BANP allows administrators to specify:
+
+* A `subject` that consists of a set of pods that is selected by the policy.
+
+* A list of ingress rules to be applied for all ingress traffic towards the `subject`.
+
+* A list of egress rules to be applied for all egress traffic from the `subject`.
+
+[NOTE]
+====
+`BaselineAdminNetworkPolicy` is a `TechnologyPreviewNoUpgrade` feature that can be enabled on test clusters that are not in production. The feature is behind the flag `enable-admin-network-policy`.
+====
+
+[discrete]
+[id="BaselineAdminNetworkPolicy-example"]
+== BaselineAdminNetworkPolicy example
+
+The `BaselineAdminNetworkPolicy` resource is a cluster singleton `object` that can be used as a guardrail policy incase a passed traffic policy does not match any `NetworkPolicies` in the cluster. BANP can also be used as a default security model that provides guardrails that intra-cluster traffic is blocked by default and user will need to use `NetworkPolicy` to allow known traffic. You must use `default` as the name when creating a `BaselineAdminNetworkPolicy` object.
+
+
+.Example YAML file for BANP
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: AdminNetworkPolicy
+metadata:
+  name: BANP_example <1>
+spec:
+  subject:
+    namespaces:
+      matchLabels:
+          kubernetes.io/metadata.name: gryffindor
+  ingress:<2>
+  - name: "deny-all-ingress-from-slytherin"
+    action: "Deny"
+    from:
+    - pods:
+        namespaces:
+          namespaceSelector:
+            matchLabels:
+              conformance-house: slytherin
+        podSelector:
+          matchLabels:
+            conformance-house: slytherin
+  egress:<2>
+  - name: "pass-all-egress-to-slytherin"
+    action: "Allow" <3>
+    to:
+    - pods:
+        namespaces:
+          namespaceSelector:
+            matchLabels:
+              conformance-house: slytherin
+        podSelector:
+          matchLabels:
+            conformance-house: slytherin
+----
+<1> Policy name
+<2> BANP have both ingress and egress rules.
+<3> BANP `action` rules for ingress and egress only accepts values of `Deny` and `Allow`.
+====
+
+
+[discrete]
+[id="BaselineAdminNetworkPolicy-default-deny-example"_{context}]
+== BaselineAdminNetworkPolicy Deny example
+The following BANP singleton ensures that the administrator has set up a default deny policy for all ingress monitoring traffic coming into the tenants at `internal` security level. When combined with the "AdminNetworkPolicy Pass example", this deny policy acts as a guardrail policy for all ingress traffic that is passed by the ANP `pass-monitoring` policy.
+
+.Example YAML file for a guardrail Deny rule
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: BaselineAdminNetworkPolicy
+metadata:
+  name: default
+spec:
+  subject:
+    namespaces:
+      matchLabels:
+        security: internal
+  ingress:
+  - name: "deny-ingress-from-monitoring"
+    action: "Deny"
+    from:
+    - namespaces:
+        namespaceSelector:
+          matchLabels:
+# ...
+----
+====
+
+//peer-reviewer, please stop here in this module. I will be pulling this out and placing it in a module for 4.16. Time crunch, so I wanted to get peer-review rolling on this.
+
+//[discrete]
+//[id="BaselineAdminNetworkPolicy-multi-tenancy-example"_{context}]
+//== BaselineAdminNetworkPolicy multi-tenancy example
+
+The following example demonstrates how `AdminNetworkPolicy` with `Pass` action can be used by administrators in conjunction with `BaseleineNetworkPolicy to create a multi-tenancy policy that allows one tenant to collect monitoring data on their application while simultaneously not collecting data from the second tenant.
+
+As an administrator if you apply both the "AdminNetworkPolicy Pass action example" and the "BaselineNetwork Policy Deny example", tenants are then left with the ability to choose to create a `NetworkPolicy` that will be evaluated before the BANP.
+
+Tenant 1 could set up the following `NetworkPolicy` to monitor ingress traffic:
+
+.Example NetworkPolicy
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-monitoring
+  namespace: tenant 1
+spec:
+  podSelector:
+  policyTypes:
+    - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+# ...
+----
+====
+
+This policy would be evaluated after the "AdminNetworkPolicy Pass action example" and before the "BaselineNetwork Policy Deny example", which denies all ingress monitoring traffic coming into tenants with `security` level `internal`. With Tenant 1's `NetworkPolicy` in place, they will be able to collect data on their application while tenant 2 who does not have any `NetworkPolicy` (NP) in place will not be able to collect data, and as an administrator, you have not by default monitored internal tenants. Instead, you've created a guardrail BANP that allows tenants to create NP that override the default behavior.
+

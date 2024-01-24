@@ -1,0 +1,35 @@
+ :_mod-docs-content-type: ASSEMBLY
+[id="ovn-k-network-policy"]
+= OVN-Kubernetes network policy
+include::_attributes/common-attributes.adoc[]
+:context: ovn-k-network-policy
+
+toc::[]
+
+include::snippets/technology-preview.adoc[]
+
+Kubernetes offers two features that users can use to enforce network security. One feature that allows users to enforce network policy is the `NetworkPolicy` API that is designed for application developers and namespace tenants. For more information, see xref:../../networking/network_policy/about-network-policy.adoc#nw-networkpolicy-about_about-network-policy [About network policy].
+
+The second feature is `AdminNetworkPolicy` (ANP) and `BaselineAdminNetworkPolicy` (BANP) APIs. Cluster administrators can use ANP and BANP to enforce non-overridable policies that take precedence over `NetworkPolicies`.
+
+OVN-Kubernetes implements these network policies usings a 3 tiered Access Control List (ACLs) to evaluate and apply them. Network policies are evaluate in descending order from tier 1 to tier 3.
+
+Tier 1 evaluates `AdminNetworkPolicies` (ANP). Tier 2 evaluates `NetworkPolicy`. Tier 3 evaluates `BaselineNetworkPolicy` (BANP).
+
+//possibly putting an image here to help describe ACLs
+
+include::modules/nw-ovn-k-adminnetwork-policy.adoc[leveloffset=+1]
+
+[discrete]
+[id="additional-resources_ANP"]
+.Additional resources
+* xref:../../nodes/clusters/nodes-cluster-enabling-features.adoc#nodes-cluster-enabling-features[Enabling features using feature gates]
+* link:https://network-policy-api.sigs.k8s.io/[sig-network-policy-api] working group
+
+include::modules/nw-ovn-k-adminnetwork-policy-action-rules.adoc[leveloffset=+2]
+
+include::modules/nw-ovn-k-baseline-adminnetwork-policy.adoc[leveloffset=+1]
+
+
+
+

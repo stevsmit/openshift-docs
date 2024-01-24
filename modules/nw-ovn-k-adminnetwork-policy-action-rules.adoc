@@ -1,0 +1,106 @@
+// Module included in the following assemblies:
+//
+// * networking/ovn-k-network-policy.adoc
+
+:_mod-docs-content-type: Concept
+[id="AdminNetworkPolicy-actions-for-rules"_{context}]
+= AdminNetworkPolicy actions for rules
+As an administrator, you can set `Allow`, `Deny`, or `Pass` as the action to your `AminNetworkPolicy` rules. Because OVN-Kuberenetes uses a tiered ACLs to evaluate network traffic rules, ANP rules allow you to set very strong network policy rules that can only be changed by an administrator modifying them, deleting the rule, or overriding them by setting a higher priority rule.
+
+[discrete]
+[id="AdminNetworkPolicy-allow-example"_{context}]
+== AdminNetworkPolicy Allow example
+The following `AdminNetworkPolicy` that is defined at priority 9 ensures all ingress traffic from the `monitoring` namespace towards any tenant (all other namespaces) in the cluster is allowed.
+
+
+.Example YAML file for a strong Allow rule
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: AdminNetworkPolicy
+metadata:
+  name: allow-monitoring
+spec:
+  priority: 9
+  subject:
+    namespaces: {}
+  ingress:
+  - name: "allow-ingress-from-monitoring"
+    action: "Allow"
+    from:
+    - namespaces:
+        namespaceSelector:
+          matchLabels:
+# ...
+----
+====
+The example is a strong `Allow` because it is non-overridable by all the parties involved. No tenants can block themselves from being monitored using `NetworkPolicies` and the monitoring tenant also has no say in what it can or cannot monitor.
+
+[discrete]
+[id="AdminNetworkPolicy-deny-example"_{context}]
+== AdminNetworkPolicy Deny example
+The following ANP that is defined at priority 5 ensures all ingress traffic from the `monitoring` namespace towards restricted tenants (namespaces that have labels security: restricted) are blocked.
+
+.Example YAML file for a strong Deny rule
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: AdminNetworkPolicy
+metadata:
+  name: block-monitoring
+spec:
+  priority: 5
+  subject:
+    namespaces:
+      matchLabels:
+       security: restricted
+  ingress:
+  - name: "deny-ingress-from-monitoring"
+    action: "Deny"
+    from:
+    - namespaces:
+        namespaceSelector:
+          matchLabels:
+# ...
+----
+====
+This is a strong `Deny` that is non-overridable by all the parties involved. The restricted tenant owners cannot authorize themselves to allow monitoring traffic, and the infrastructure’s monitoring service cannot scrape anything from these sensitive namespaces.
+
+When combined with the strong `Allow` example, the `block-monitoring` ANP has a lower priority value giving it higher precedence, which ensures restricted tenants are never monitored.
+
+[discrete]
+[id="AdminNetworkPolicy-pass-example"_{context}]
+== AdminNetworkPolicy Pass example
+The following ANP that is defined at priority 7 ensures all ingress traffic from the `monitoring` namespace towards internal infrastructure tenants (namespaces that have label security set to `internal`) are passed on to tier 2 of the ACLs and evaluated by the namespaces’ `NetworkPolicies`.
+
+.Example YAML file for a strong Pass rule
+[%collapsible]
+====
+[source,yaml]
+----
+apiVersion: policy.networking.k8s.io/v1alpha1
+kind: AdminNetworkPolicy
+metadata:
+  name: pass-monitoring
+spec:
+  priority: 7
+  subject:
+    namespaces:
+      matchLabels:
+        security: internal
+  ingress:
+  - name: "pass-ingress-from-monitoring"
+    action: "Pass"
+    from:
+    - namespaces:
+        namespaceSelector:
+          matchLabels:
+# ...
+----
+====
+
+This example is a strong `Pass` action ANP because it delegates the decision to `NetworkPolicies` defined by tenant owners. This `pass-monitoring` ANP allows all tenant owners grouped at security level `internal` to choose if their metrics should be scraped by the infrastructure's monitoring service using namespace scoped `NetworkPolicy`. See "BaselineAdminNetworkPolicy multi-tenancy example" for more information an example of how to use `NetworkPolicy` to create multi-tenancy policies using ANP and BANP.
