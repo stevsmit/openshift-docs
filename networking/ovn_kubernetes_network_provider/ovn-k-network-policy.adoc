@@ -8,7 +8,9 @@ toc::[]
 
 include::snippets/technology-preview.adoc[]
 
-Kubernetes offers two features that users can use to enforce network security. One feature that allows users to enforce network policy is the `NetworkPolicy` API that is designed for application developers and namespace tenants. For more information, see xref:../../networking/network_policy/about-network-policy.adoc#nw-networkpolicy-about_about-network-policy [About network policy].
+Kubernetes offers two features that users can use to enforce network security. One feature that allows users to enforce network policy is the `NetworkPolicy` API that is designed for application developers and namespace tenants. For more information, see xref:../../networking/network_policy/about-network-policy.adoc#nw-networkpolicy-about_about-network-policy[About network policy].
+
+networking/network_policy/about-network-policy.adoc#nw-networkpolicy-about_about-network-policy
 
 The second feature is `AdminNetworkPolicy` (ANP) and `BaselineAdminNetworkPolicy` (BANP) APIs. Cluster administrators can use ANP and BANP to enforce non-overridable policies that take precedence over `NetworkPolicies`.
 
