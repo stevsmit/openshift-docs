@@ -106,8 +106,6 @@ If your catalog cannot run with `restricted` permissions, it is recommended that
 * `CONNECTING`: A connection is attempting to establish.
 * `TRANSIENT_FAILURE`: A temporary problem has occurred while attempting to establish a connection, such as a timeout. The state will eventually switch back to `CONNECTING` and try again.
 --
-+
-See link:https://grpc.github.io/grpc/core/md_doc_connectivity-semantics-and-api.html[States of Connectivity] in the gRPC documentation for more details.
 `status.latestImageRegistryPoll`:: Specifies the latest time the container registry storing the catalog image was polled to ensure the image is up-to-date.
 `status.registryService`:: Specifies status information for the catalog's Operator Registry service.
 
@@ -127,6 +125,11 @@ spec:
   source: example-catalog
   sourceNamespace: {global_ns}
 ----
+
+[role="_additional-resources"]
+.Additional resources
+
+* link:https://grpc.github.io/grpc/core/md_doc_connectivity-semantics-and-api.html[States of Connectivity (gRPC documentation)]
 
 ifdef::openshift-origin[]
 :!global_ns:
