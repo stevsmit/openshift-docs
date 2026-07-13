@@ -6,6 +6,9 @@
 [id="olm-bundle-format-annotations_{context}"]
 = Annotations
 
+[role="_abstract"]
+Operator bundle annotations in `annotations.yaml` define aggregate metadata that describes how a bundle is indexed in {product-title}. These annotations specify media type, manifest paths, package name, channels, and the default channel for catalog registration.
+
 A bundle also includes an `annotations.yaml` file in its `/metadata` directory. This file defines higher level aggregate data that helps describe the format and package information about how the bundle should be added into an index of bundles:
 
 .Example `annotations.yaml`
